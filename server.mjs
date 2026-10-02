@@ -9,6 +9,6 @@ const app = express();
 
 app.disable("x-powered-by");
 app.get("/health", (_req, res) => res.json({ ok: true }));
-app.use(express.static(fileURLToPath(new URL("./public", import.meta.url)), { maxAge: "1h" }));
+app.use(express.static(fileURLToPath(new URL("./public", import.meta.url)), { maxAge: 0 }));
 
 app.listen(PORT, HOST, () => console.log(`skinder on ${HOST}:${PORT}`));
