@@ -1,5 +1,5 @@
 // Skinder: swipe biopsy-confirmed skin lesion photos. Left = looks fine, right = get it checked.
-const REQUEUE_AFTER = 8;   // a missed card comes back this many cards later
+const REQUEUE_AFTER = 30;  // a missed card comes back once, this many cards later
 const STORE_KEY = "skinder.v1";
 
 const $ = (id) => document.getElementById(id);
@@ -10,6 +10,7 @@ let view = "clinical";
 let queue = [];            // upcoming cards for the current view
 let current = null;
 let answered = false;
+let retried = new Set();   // ids already given their one second look
 let flyTimer = null;      // pending switch to the answer card
 let score = load();
 
@@ -54,7 +55,7 @@ function show() {
   if (!queue.length) buildQueue();
   current = queue.shift();
   answered = false;
-  preload(queue[0]);
+  queue.slice(0, 3).forEach(preload);
   const site = current.site ? current.site.toLowerCase() : "site unknown";
   const age = current.age ? `age ${current.age}` : "age unknown";
   stage.innerHTML = `
@@ -79,7 +80,11 @@ function answer(saidCheck) {
   const right = saidCheck === current.malignant;
   if (current.malignant) { s.malignant++; if (right) s.caught++; }
   else { s.benign++; if (right) s.cleared++; }
-  if (!right) queue.splice(Math.min(REQUEUE_AFTER, queue.length), 0, current);
+  const retry = !right && !retried.has(current.id);
+  if (retry) {
+    retried.add(current.id);
+    queue.splice(Math.min(REQUEUE_AFTER, queue.length), 0, current);
+  }
   save();
   renderStats();
 
@@ -92,10 +97,10 @@ function answer(saidCheck) {
   card.classList.remove("anim");
   card.classList.add("fly");
   card.style.transform = `translateX(${dir * 150}vw) rotate(${dir * 30}deg)`;
-  flyTimer = setTimeout(() => showResult(right), 300);
+  flyTimer = setTimeout(() => showResult(right, retry), 300);
 }
 
-function showResult(right) {
+function showResult(right, retry) {
   let big, truth;
   if (right && current.malignant) [big, truth] = ["✓ Caught it", "This was cancer"];
   else if (right) [big, truth] = ["✓ Right", "This was harmless"];
@@ -108,7 +113,7 @@ function showResult(right) {
         <div class="big">${big}</div>
         <div class="truth">${truth}</div>
         <div class="dx">${current.dx} · confirmed by biopsy</div>
-        ${right ? "" : `<div class="again">You'll see this one again shortly.</div>`}
+        ${retry ? `<div class="again">You'll see this one again in a while.</div>` : ""}
       </div>
       <img src="${current.img}" alt="Skin lesion photo ${current.id}">
       <div class="meta credit"><span>${current.license}${current.attribution ? ` · ${current.attribution}` : ""}</span>
