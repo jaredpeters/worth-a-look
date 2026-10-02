@@ -1,0 +1,26 @@
+# Static app, no state, no outbound calls from the container.
+name: skinder
+
+services:
+  skinder-web:
+    build: .
+    image: skinder:latest
+    container_name: skinder-web
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8140:8140"      # loopback only; put a reverse proxy in front to share it
+    read_only: true
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    cpus: "0.25"
+    mem_limit: 96m
+    pids_limit: 32
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8140/health >/dev/null 2>&1 || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    logging:
+      driver: json-file
+      options: { max-size: "5m", max-file: "3" }

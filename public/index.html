@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Skinder</title>
+<style>
+  :root {
+    --bg: #f6f4f1; --surface: #fff; --text: #1d1b19; --muted: #6f6a64; --line: #e3dfd9;
+    --fine: #2f7d5b; --check: #c2452d; --accent: #3b5bdb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #161514; --surface: #22201e; --text: #efebe6; --muted: #a39d96; --line: #36332f;
+      --fine: #4fbf8c; --check: #f07158; --accent: #8ea2ff; }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { background: var(--bg); color: var(--text); font: 16px/1.4 system-ui, -apple-system, sans-serif;
+    display: flex; flex-direction: column; align-items: center; padding: 12px 16px env(safe-area-inset-bottom); }
+  header { width: 100%; max-width: 480px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  h1 { font-size: 20px; margin: 0; letter-spacing: -0.02em; }
+  .modes { display: flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+  .modes button { border: 0; background: none; color: var(--muted); padding: 6px 12px; font: inherit; font-size: 14px; cursor: pointer; }
+  .modes button[aria-pressed="true"] { background: var(--text); color: var(--bg); }
+  .stats { width: 100%; max-width: 480px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
+  .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px 12px; }
+  .stat b { font-size: 20px; display: block; }
+  .stat span { font-size: 13px; color: var(--muted); }
+  .stage { position: relative; width: 100%; max-width: 480px; flex: 1; min-height: 320px; max-height: 560px; }
+  .card { position: absolute; inset: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 18px;
+    overflow: hidden; display: flex; flex-direction: column; touch-action: none; user-select: none;
+    box-shadow: 0 6px 24px rgb(0 0 0 / .08); }
+  .card.anim { transition: transform .25s ease, opacity .25s ease; }
+  .card img { flex: 1; min-height: 0; width: 100%; object-fit: contain; background: #000; pointer-events: none; }
+  .meta { padding: 10px 14px; font-size: 14px; color: var(--muted); display: flex; justify-content: space-between; }
+  .tag { position: absolute; top: 18px; padding: 4px 12px; border: 3px solid; border-radius: 8px; font-weight: 700;
+    font-size: 20px; opacity: 0; text-transform: uppercase; background: rgb(255 255 255 / .85); }
+  .tag.fine { left: 18px; color: var(--fine); transform: rotate(-12deg); }
+  .tag.check { right: 18px; color: var(--check); transform: rotate(12deg); }
+  .reveal { position: absolute; inset: auto 0 0 0; background: var(--surface); padding: 14px; border-top: 1px solid var(--line); }
+  .reveal h2 { margin: 0 0 4px; font-size: 18px; }
+  .reveal .ok { color: var(--fine); } .reveal .bad { color: var(--check); }
+  .reveal p { margin: 4px 0; font-size: 14px; }
+  .reveal small { color: var(--muted); font-size: 12px; display: block; margin-top: 6px; }
+  .reveal a { color: var(--accent); }
+  .actions { width: 100%; max-width: 480px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0 6px; }
+  .actions button { font: inherit; font-weight: 600; padding: 14px; border-radius: 14px; border: 2px solid; background: var(--surface); cursor: pointer; }
+  #fine { color: var(--fine); } #check { color: var(--check); }
+  #next { grid-column: 1 / -1; color: var(--text); border-color: var(--line); }
+  footer { max-width: 480px; font-size: 12px; color: var(--muted); text-align: center; margin: 6px 0 10px; }
+  footer button { font: inherit; color: var(--accent); background: none; border: 0; cursor: pointer; text-decoration: underline; padding: 0; }
+  .msg { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; color: var(--muted); padding: 24px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Skinder</h1>
+  <div class="modes" role="group" aria-label="Image type">
+    <button data-view="clinical" aria-pressed="true">Naked eye</button>
+    <button data-view="dermoscopic" aria-pressed="false">Dermoscope</button>
+  </div>
+</header>
+
+<section class="stats">
+  <div class="stat"><b id="caught">–</b><span>cancers you flagged</span></div>
+  <div class="stat"><b id="cleared">–</b><span>harmless ones you cleared</span></div>
+</section>
+
+<main class="stage" id="stage"><div class="msg">Loading images…</div></main>
+
+<div class="actions" id="actions">
+  <button id="fine">← Looks fine</button>
+  <button id="check">Get it checked →</button>
+</div>
+
+<footer>
+  A practice game, not a diagnosis. Anything new, changing, bleeding or that worries you: see a doctor.<br>
+  Images and biopsy-confirmed labels from the <a href="https://www.isic-archive.com" target="_blank" rel="noopener">ISIC Archive</a>.
+  · <button id="reset">Reset score</button>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
