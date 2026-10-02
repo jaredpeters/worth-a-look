@@ -10,6 +10,7 @@ let view = "clinical";
 let queue = [];            // upcoming cards for the current view
 let current = null;
 let answered = false;
+let flyTimer = null;      // pending switch to the answer card
 let score = load();
 
 function load() {
@@ -49,6 +50,7 @@ function renderStats() {
 function preload(c) { if (c) new Image().src = c.img; }
 
 function show() {
+  clearTimeout(flyTimer);
   if (!queue.length) buildQueue();
   current = queue.shift();
   answered = false;
@@ -56,7 +58,7 @@ function show() {
   const site = current.site ? current.site.toLowerCase() : "site unknown";
   const age = current.age ? `age ${current.age}` : "age unknown";
   stage.innerHTML = `
-    <div class="card" id="card">
+    <div class="card pop" id="card">
       <img src="${current.img}" alt="Skin lesion photo ${current.id}">
       <div class="tag fine">Fine</div><div class="tag check">Check</div>
       <div class="meta"><span>${age} · ${current.sex || "sex unknown"}</span><span>${site}</span></div>
@@ -66,6 +68,7 @@ function show() {
     <button id="check">Get it checked →</button>`;
   $("fine").onclick = () => answer(false);
   $("check").onclick = () => answer(true);
+  $("card").addEventListener("animationend", (e) => e.target.classList.remove("pop"));
   attachSwipe($("card"));
 }
 
@@ -80,28 +83,73 @@ function answer(saidCheck) {
   save();
   renderStats();
 
+  $("actions").innerHTML = `<button id="next">Next ↑</button>`;
+  $("next").onclick = next;
+
+  // Fly the card fully off in the swipe direction, then bring it back from the center with the answer.
   const card = $("card");
-  card.classList.add("anim");
-  card.style.transform = "none";
-  card.querySelectorAll(".tag").forEach((t) => (t.style.opacity = 0));
+  const dir = saidCheck ? 1 : -1;
+  card.classList.remove("anim");
+  card.classList.add("fly");
+  card.style.transform = `translateX(${dir * 150}vw) rotate(${dir * 30}deg)`;
+  flyTimer = setTimeout(() => showResult(right), 300);
+}
 
-  let headline;
-  if (right && current.malignant) headline = `<h2 class="ok">Caught it. This was cancer.</h2>`;
-  else if (right) headline = `<h2 class="ok">Right. This was harmless.</h2>`;
-  else if (current.malignant) headline = `<h2 class="bad">Missed. This was cancer.</h2>`;
-  else headline = `<h2 class="bad">False alarm. This was harmless.</h2>`;
+function showResult(right) {
+  let big, truth;
+  if (right && current.malignant) [big, truth] = ["✓ Caught it", "This was cancer"];
+  else if (right) [big, truth] = ["✓ Right", "This was harmless"];
+  else if (current.malignant) [big, truth] = ["✗ Missed", "This was cancer"];
+  else [big, truth] = ["✗ False alarm", "This was harmless"];
 
-  const r = document.createElement("div");
-  r.className = "reveal";
-  r.innerHTML = `${headline}
-    <p><b>${current.dx}</b>${current.group && current.group !== current.dx ? ` — ${current.group}` : ""}</p>
-    <p>Confirmed by biopsy.${right ? "" : " You'll see this one again shortly."}</p>
-    <small>${current.id} · ${current.license}${current.attribution ? ` · ${current.attribution}` : ""} ·
-      <a href="https://api.isic-archive.com/images/${current.id}/" target="_blank" rel="noopener">view on ISIC</a></small>`;
-  card.appendChild(r);
+  stage.innerHTML = `
+    <div class="card pop" id="card">
+      <div class="verdict ${right ? "ok" : "bad"}">
+        <div class="big">${big}</div>
+        <div class="truth">${truth}</div>
+        <div class="dx">${current.dx} · confirmed by biopsy</div>
+        ${right ? "" : `<div class="again">You'll see this one again shortly.</div>`}
+      </div>
+      <img src="${current.img}" alt="Skin lesion photo ${current.id}">
+      <div class="meta credit"><span>${current.license}${current.attribution ? ` · ${current.attribution}` : ""}</span>
+        <a href="https://api.isic-archive.com/images/${current.id}/" target="_blank" rel="noopener">view on ISIC</a></div>
+      <div class="hint">↑ swipe up for next</div>
+    </div>`;
+  attachSwipeUp($("card"));
+}
 
-  $("actions").innerHTML = `<button id="next">Next (space)</button>`;
-  $("next").onclick = show;
+// On the answer card, swipe up (or tap) to fly it off the top and bring in the next photo.
+function attachSwipeUp(card) {
+  let y0 = null, dy = 0;
+  card.addEventListener("pointerdown", (e) => {
+    if (e.target.tagName === "A") return;
+    y0 = e.clientY; dy = 0;
+    card.setPointerCapture(e.pointerId);
+    card.classList.remove("anim", "pop");
+  });
+  card.addEventListener("pointermove", (e) => {
+    if (y0 === null) return;
+    dy = Math.min(0, e.clientY - y0);
+    card.style.transform = `translateY(${dy}px)`;
+  });
+  const end = () => {
+    if (y0 === null) return;
+    y0 = null;
+    if (dy < -80 || Math.abs(dy) < 5) next();
+    else { card.classList.add("anim"); card.style.transform = "none"; }
+  };
+  card.addEventListener("pointerup", end);
+  card.addEventListener("pointercancel", end);
+}
+
+function next() {
+  clearTimeout(flyTimer);
+  const card = $("card");
+  if (!card || !answered) return show();
+  card.classList.remove("anim", "pop");
+  card.classList.add("fly");
+  card.style.transform = "translateY(-120vh)";
+  flyTimer = setTimeout(show, 250);
 }
 
 function attachSwipe(card) {
@@ -136,7 +184,7 @@ function attachSwipe(card) {
 document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") answer(false);
   else if (e.key === "ArrowRight") answer(true);
-  else if ((e.key === " " || e.key === "Enter") && answered) { e.preventDefault(); show(); }
+  else if ((e.key === " " || e.key === "Enter" || e.key === "ArrowUp") && answered) { e.preventDefault(); next(); }
 });
 
 document.querySelectorAll(".modes button").forEach((b) => {
