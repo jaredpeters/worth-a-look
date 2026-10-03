@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skinder</title>
+<meta name="description" content="A swipe game for learning which skin spots are worth showing a doctor, using thousands of biopsy-confirmed photos from the ISIC Archive.">
+<meta property="og:title" content="Skinder">
+<meta property="og:description" content="Swipe through real, biopsy-confirmed skin spots. Learn which ones need a doctor.">
+<meta property="og:image" content="img/answer.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fff4d6; --surface: #fff; --ink: #111;
+    --yellow: #ffd23f; --pink: #ff8fc7; --blue: #8ec5ff; --mint: #3be8b0; --red: #ff5c5c;
+    --shadow: 6px 6px 0 var(--ink); --shadow-sm: 3px 3px 0 var(--ink);
+    --display: "Archivo Black", system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #1d1b26; }
+    :root:not([data-theme="light"]) .on-bg { color: #f3efff; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 500 18px/1.55 "Space Grotesk", system-ui, sans-serif; }
+  a { color: inherit; }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 20px; }
+  h1, h2, h3 { font-family: var(--display); font-weight: 400; line-height: 1.05; margin: 0; }
+  .box { background: var(--surface); border: 3px solid var(--ink); box-shadow: var(--shadow); padding: 22px; }
+  .btn { display: inline-block; font: 20px var(--display); text-decoration: none; padding: 14px 22px;
+    border: 3px solid var(--ink); box-shadow: var(--shadow); transition: transform .08s, box-shadow .08s; }
+  .btn:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--ink); }
+  .btn:active { transform: translate(4px, 4px); box-shadow: 2px 2px 0 var(--ink); }
+  .sticker { display: inline-block; border: 3px solid var(--ink); box-shadow: var(--shadow-sm); padding: 2px 12px; }
+
+  /* hero */
+  .top { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; }
+  .logo { font: 28px var(--display); background: var(--yellow); transform: rotate(-2deg); }
+  .top a.gh { font-weight: 700; }
+  .hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; padding: 24px 0 72px; }
+  .hero h1 { font-size: clamp(42px, 6.4vw, 76px); letter-spacing: -0.02em; }
+  .hero h1 mark { background: var(--pink); padding: 0 8px; border: 3px solid var(--ink); box-shadow: var(--shadow-sm);
+    display: inline-block; transform: rotate(-1.5deg); color: inherit; }
+  .hero p.lead { font-size: 21px; margin: 26px 0 30px; max-width: 34em; }
+  .hero .ctas { display: flex; flex-wrap: wrap; gap: 18px; }
+  .play { background: var(--mint); } .code { background: var(--surface); }
+  .phone { position: relative; justify-self: center; width: min(320px, 80vw); }
+  .phone img { width: 100%; display: block; border: 4px solid var(--ink); box-shadow: 10px 10px 0 var(--ink); }
+  .phone .back { position: absolute; width: 78%; top: 8%; right: -28%; transform: rotate(7deg); z-index: -1; }
+  .phone .tilt { transform: rotate(-3deg); }
+
+  /* numbers */
+  .numbers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-bottom: 84px; }
+  .numbers .box b { display: block; font: 46px var(--display); }
+  .numbers .box:nth-child(1) { background: var(--yellow); }
+  .numbers .box:nth-child(2) { background: var(--blue); }
+  .numbers .box:nth-child(3) { background: var(--pink); }
+
+  section { margin-bottom: 84px; }
+  .section-title { font-size: clamp(32px, 4.5vw, 48px); margin-bottom: 28px; }
+  .section-title span { background: var(--yellow); padding: 0 8px; border: 3px solid var(--ink); box-shadow: var(--shadow-sm); }
+
+  /* how it works */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .step .n { font: 22px var(--display); width: 46px; height: 46px; display: grid; place-items: center;
+    border: 3px solid var(--ink); box-shadow: var(--shadow-sm); margin-bottom: 14px; }
+  .step:nth-child(1) .n { background: var(--blue); } .step:nth-child(2) .n { background: var(--red); }
+  .step:nth-child(3) .n { background: var(--mint); }
+  .step h3 { font-size: 26px; margin-bottom: 10px; }
+  .step p { margin: 0; }
+  .shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 30px; }
+  .shots figure { margin: 0; }
+  .shots img { width: 100%; display: block; border: 3px solid var(--ink); box-shadow: var(--shadow); }
+  .shots figcaption { font-weight: 700; margin-top: 12px; font-size: 16px; }
+
+  /* modes */
+  .modes { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+  .modes h3 { font-size: 26px; margin-bottom: 8px; }
+  .modes .box:first-child { background: var(--blue); }
+  .modes .box p { margin: 0 0 10px; } .modes .box p:last-child { margin: 0; }
+
+  /* limits */
+  .limits { background: var(--red); }
+  .limits ol { margin: 0; padding-left: 24px; }
+  .limits li { margin-bottom: 14px; } .limits li:last-child { margin-bottom: 0; }
+  .limits b { font-weight: 700; }
+
+  /* run */
+  pre { background: var(--ink); color: #f3efff; padding: 18px 20px; overflow-x: auto; font: 15px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace;
+    border: 3px solid var(--ink); box-shadow: 6px 6px 0 var(--yellow); margin: 18px 0; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9em; }
+
+  footer { border-top: 4px solid var(--ink); background: var(--yellow); padding: 30px 0 40px; font-size: 16px; }
+  footer p { margin: 0 0 10px; max-width: 46em; }
+
+  @media (max-width: 820px) {
+    .hero, .modes { grid-template-columns: 1fr; }
+    .hero { gap: 40px; padding-bottom: 56px; }
+    .phone .back { display: none; }
+    .numbers, .steps, .shots { grid-template-columns: 1fr; }
+    .shots figure { max-width: 320px; }
+    section, .numbers { margin-bottom: 60px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav class="top">
+    <span class="sticker logo">Skinder</span>
+    <a class="gh on-bg" href="https://github.com/jaredpeters/skinder">GitHub →</a>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <h1 class="on-bg">Swipe through real skin spots. Learn which ones <mark>need a doctor.</mark></h1>
+      <p class="lead on-bg">Skinder shows you photos of moles and skin growths that were later checked by biopsy.
+        You swipe left if it looks fine and right if you'd get it checked, and the real answer appears straight away.
+        After a few hundred swipes you start to see what doctors look for.</p>
+      <div class="ctas">
+        <a class="btn play" href="play/">Play now →</a>
+        <a class="btn code" href="https://github.com/jaredpeters/skinder">See the code</a>
+      </div>
+    </div>
+    <div class="phone">
+      <img class="tilt" src="img/question.png" alt="Skinder showing a photo of a skin spot with the patient's age and body site, and two buttons: Looks fine and Get it checked.">
+      <img class="back" src="img/answer.png" alt="">
+    </div>
+  </header>
+
+  <div class="numbers">
+    <div class="box"><b>9,159</b>photos, every one confirmed by biopsy</div>
+    <div class="box"><b>2</b>ways to look: a phone camera, or a dermatologist's magnifier</div>
+    <div class="box"><b>0</b>accounts, trackers or uploads. Your score stays on your device.</div>
+  </div>
+
+  <section>
+    <h2 class="section-title"><span>How it works</span></h2>
+    <div class="steps">
+      <div class="box step"><div class="n">1</div><h3>Look</h3>
+        <p>Each card is one real spot, with the person's age, sex and where it was on the body. Doctors use those too.</p></div>
+      <div class="box step"><div class="n">2</div><h3>Swipe</h3>
+        <p>Left means it looks fine. Right means you'd get it checked. Buttons and arrow keys work as well.</p></div>
+      <div class="box step"><div class="n">3</div><h3>Learn</h3>
+        <p>The biopsy result appears with the diagnosis. Any photo you got wrong comes back once, about 30 cards later.</p></div>
+    </div>
+    <div class="shots">
+      <figure><img src="img/question.png" alt="A card waiting for your answer."><figcaption>A new spot to judge</figcaption></figure>
+      <figure><img src="img/swipe.png" alt="The card being dragged right, with a red CHECK stamp."><figcaption>Swipe right: get it checked</figcaption></figure>
+      <figure><img src="img/answer.png" alt="The answer card: Caught it. This was cancer. Melanoma in situ, confirmed by biopsy."><figcaption>The biopsy answer</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title"><span>Where the photos come from</span></h2>
+    <div class="box" style="margin-bottom:26px">
+      <p style="margin-top:0">Every photo comes from the <a href="https://www.isic-archive.com">ISIC Archive</a>, a public
+        collection of skin images run by the International Skin Imaging Collaboration. Skinder keeps only photos whose
+        diagnosis was confirmed by biopsy: a doctor removed the spot and a lab examined it under a microscope. Photos the lab
+        couldn't call either way are left out, because there would be no answer to score you against.</p>
+      <p style="margin-bottom:0">Photos load straight from the archive into your browser. Each answer card shows the
+        photo's license and who took it, with a link to its page in the archive.</p>
+    </div>
+    <div class="modes">
+      <div class="box"><h3>Naked eye</h3>
+        <p>6,159 ordinary close-up photos, like one you'd take with a phone. This is the view you have of your own skin.</p>
+        <p>4,781 cancers and 1,378 harmless spots. Each round is dealt half and half.</p></div>
+      <div class="box"><h3>Dermoscope</h3>
+        <p>3,000 photos through a dermatoscope, the lit magnifier a skin doctor presses against the skin. Patterns show
+          up that you can't see by eye.</p>
+        <p>1,500 cancers and 1,500 harmless spots.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title"><span>What it can't do</span></h2>
+    <div class="box limits">
+      <ol>
+        <li><b>It can't tell you about your own skin.</b> It's a practice game. Anything new, changing, bleeding or
+          worrying you should be seen by a doctor, whatever your score says.</li>
+        <li><b>Half of every round is cancer.</b> In real life almost every spot is harmless. The even split is there so
+          you get enough practice on both, but it can make every mole start to look suspicious.</li>
+        <li><b>The harmless photos are harder than real life.</b> They were suspicious enough that a doctor took a biopsy.
+          Your everyday moles look far more ordinary.</li>
+        <li><b>Most naked-eye cancers are basal cell carcinoma,</b> the most common and least dangerous skin cancer.
+          Melanoma practice is stronger in dermoscope mode.</li>
+        <li><b>Most photos show lighter skin.</b> Skin cancer can look different on darker skin. Adding a dataset like
+          Stanford's Diverse Dermatology Images is on the list.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title"><span>Run it yourself</span></h2>
+    <div class="box">
+      <p style="margin-top:0">It's a static web page with a small Node server. No build step, no database.</p>
+      <pre>git clone https://github.com/jaredpeters/skinder.git
+cd skinder
+npm install
+npm start            # open http://localhost:8140</pre>
+      <p>Or with Docker: <code>docker compose up -d</code>.</p>
+      <p style="margin-bottom:0">The list of photos ships with the repo. To fetch a fresh copy from the archive, run
+        <code>python3 scripts/build_deck.py</code>. It takes a few minutes and uses only the Python standard library.</p>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><b>Skinder is a practice game. It doesn't diagnose anything.</b> If a spot on your skin worries you, see a doctor.</p>
+    <p>Images and diagnoses: <a href="https://www.isic-archive.com">ISIC Archive</a>, under CC-0, CC-BY and CC-BY-NC
+      licenses as marked on each photo. Screenshots on this page include ISIC images credited to the MILK study team
+      (CC-BY-NC). Code under the MIT license.</p>
+  </div>
+</footer>
+
+</body>
+</html>

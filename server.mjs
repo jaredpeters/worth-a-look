@@ -9,6 +9,10 @@ const app = express();
 
 app.disable("x-powered-by");
 app.get("/health", (_req, res) => res.json({ ok: true }));
-app.use(express.static(fileURLToPath(new URL("./public", import.meta.url)), { maxAge: 0 }));
+const dir = (d) => fileURLToPath(new URL(d, import.meta.url));
+app.use(express.static(dir("./public"), { maxAge: 0 }));
+// The project page, laid out the way GitHub Pages serves it: page at /about/, game at /about/play/.
+app.use("/about/play", express.static(dir("./public"), { maxAge: 0 }));
+app.use("/about", express.static(dir("./site"), { maxAge: 0 }));
 
 app.listen(PORT, HOST, () => console.log(`skinder on ${HOST}:${PORT}`));
