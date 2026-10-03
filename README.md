@@ -51,8 +51,13 @@ python3 scripts/build_deck.py
 | `scripts/build_deck.py` | Fetches biopsy-confirmed photos from the ISIC API |
 | `server.mjs` | Small Express server. Serves the game at `/` and the project page at `/about/` |
 
-## Credits
+## Rights and licenses
 
-Images and diagnoses come from the ISIC Archive under the CC-0, CC-BY or CC-BY-NC license shown on each photo. Each answer card credits the photo's source and links to it. The screenshots above include ISIC images credited to the MILK study team (CC-BY-NC).
+- **Code:** MIT license, © 2026 Jared Peters.
+- **Photos:** not in this repo and not covered by the MIT license. Each belongs to its contributor to the [ISIC Archive](https://www.isic-archive.com), under CC0, CC BY or CC BY-NC. Every answer card shows the photo's ISIC ID, credit line and license, with a link to its archive page.
+- **Non-commercial:** Skinder is free, with no ads, and will not be sold. Over half the photos are CC BY-NC, so a commercial fork must drop them first.
+- **Screenshots** above use photo ISIC_0024258 (CC0).
+- **Fonts:** Archivo Black and Space Grotesk, SIL Open Font License, bundled in `public/fonts/`.
+- **Privacy:** no accounts, cookies or analytics. Photos load from the ISIC Archive's image host.
 
-Code is MIT licensed.
+Full details, including the medical disclaimer and how to ask for a photo to be removed: [RIGHTS.md](RIGHTS.md).

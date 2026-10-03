@@ -8,9 +8,7 @@
 <meta property="og:title" content="Skinder">
 <meta property="og:description" content="Swipe through real, biopsy-confirmed skin spots. Learn which ones need a doctor.">
 <meta property="og:image" content="img/answer.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="play/fonts/fonts.css">
 <style>
   :root {
     --bg: #fff4d6; --surface: #fff; --ink: #111;
@@ -132,7 +130,7 @@
   <div class="numbers">
     <div class="box"><b>9,159</b>photos, every one confirmed by biopsy</div>
     <div class="box"><b>2</b>ways to look: a phone camera, or a dermatologist's magnifier</div>
-    <div class="box"><b>0</b>accounts, trackers or uploads. Your score stays on your device.</div>
+    <div class="box"><b>0</b>accounts, cookies or analytics. Your score stays on your device.</div>
   </div>
 
   <section>
@@ -192,6 +190,22 @@
   </section>
 
   <section>
+    <h2 class="section-title"><span>Rights and licenses</span></h2>
+    <div class="steps">
+      <div class="box step"><h3>The code</h3>
+        <p>MIT license. Use it, change it and share it, as long as the copyright notice stays with it.</p></div>
+      <div class="box step"><h3>The photos</h3>
+        <p>Each belongs to its contributor to the ISIC Archive, under CC0, CC BY or CC BY-NC. Every answer card credits
+          the photo with its ISIC ID, contributor and license.</p></div>
+      <div class="box step"><h3>Non-commercial</h3>
+        <p>Skinder is free, has no ads and will not be sold. Over half the photos only allow non-commercial use.</p></div>
+    </div>
+    <p class="on-bg" style="margin-top:26px">No accounts, cookies or analytics. Your score stays in your browser, and the
+      fonts are bundled, so the only outside requests are for the photos. The full details, including how to ask for a
+      photo to be removed, are in <a href="https://github.com/jaredpeters/skinder/blob/main/RIGHTS.md">RIGHTS.md</a>.</p>
+  </section>
+
+  <section>
     <h2 class="section-title"><span>Run it yourself</span></h2>
     <div class="box">
       <p style="margin-top:0">It's a static web page with a small Node server. No build step, no database.</p>
@@ -210,8 +224,9 @@ npm start            # open http://localhost:8140</pre>
   <div class="wrap">
     <p><b>Skinder is a practice game. It doesn't diagnose anything.</b> If a spot on your skin worries you, see a doctor.</p>
     <p>Images and diagnoses: <a href="https://www.isic-archive.com">ISIC Archive</a>, under CC-0, CC-BY and CC-BY-NC
-      licenses as marked on each photo. Screenshots on this page include ISIC images credited to the MILK study team
-      (CC-BY-NC). Code under the MIT license.</p>
+      licenses as marked on each photo. Screenshots on this page show photo ISIC_0024258 (CC0). Code under the MIT
+      license. Fonts under the SIL Open Font License. Not affiliated with or endorsed by the International Skin Imaging
+      Collaboration. <a href="https://github.com/jaredpeters/skinder/blob/main/RIGHTS.md">Rights and licenses</a>.</p>
   </div>
 </footer>
 

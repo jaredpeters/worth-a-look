@@ -116,7 +116,7 @@ function showResult(right, retry) {
         ${retry ? `<div class="again">You'll see this one again in a while.</div>` : ""}
       </div>
       <img src="${current.img}" alt="Skin lesion photo ${current.id}">
-      <div class="meta credit"><span>${current.license}${current.attribution ? ` · ${current.attribution}` : ""}</span>
+      <div class="meta credit"><span>${current.id} · ${current.attribution || "ISIC Archive"} · ${current.license}</span>
         <a href="https://api.isic-archive.com/images/${current.id}/" target="_blank" rel="noopener">view on ISIC</a></div>
       <div class="hint">↑ swipe up for next</div>
     </div>`;
