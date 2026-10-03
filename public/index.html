@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Skinder</title>
+<title>Worth a Look</title>
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
   /* Neobrutalism: thick ink borders, hard offset shadows, flat loud colors. */
@@ -73,13 +73,25 @@
   #next { grid-column: 1 / -1; background: var(--yellow); }
   footer { max-width: 480px; font-size: 12px; color: var(--muted); text-align: center; margin: 6px 0 10px; }
   footer a, footer button { font: inherit; font-weight: 700; color: inherit; background: none; border: 0; cursor: pointer; text-decoration: underline; padding: 0; }
+  .progress { width: 100%; max-width: 480px; display: grid; grid-template-columns: repeat(20, 1fr); gap: 3px; margin: 0 0 12px; }
+  .progress i { height: 10px; border: 2px solid var(--ink); background: var(--surface); }
+  .progress i.ok { background: var(--fine); } .progress i.bad { background: var(--check); }
+  .progress i.now { background: var(--yellow); }
+  .summary .sum-body { padding: 14px 16px; flex: 1; overflow: auto; }
+  .summary p { margin: 0 0 12px; font-size: 17px; }
+  .summary .small { font-size: 14px; }
+  .bars { display: flex; gap: 6px; align-items: flex-end; height: 110px; margin: 6px 0; }
+  .bar { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; position: relative; }
+  .bar span { display: block; background: var(--blue); border: 2px solid var(--ink); }
+  .bar.last span { background: var(--fine); }
+  .bar em { font-style: normal; font-size: 11px; font-weight: 700; text-align: center; }
   .msg { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 24px;
     border: 4px solid var(--ink); background: var(--surface); font-weight: 700; }
 </style>
 </head>
 <body>
 <header>
-  <h1>Skinder</h1>
+  <h1>Worth a Look</h1>
 </header>
 <nav class="modes-row">
   <div class="modes" role="group" aria-label="Image type">
@@ -94,6 +106,8 @@
   <div class="stat"><b id="cleared">–</b><span>harmless ones cleared</span></div>
 </section>
 
+<div class="progress" id="progress" aria-label="Progress through this round"></div>
+
 <main class="stage" id="stage"><div class="msg">Loading images…</div></main>
 
 <div class="actions" id="actions">
@@ -103,8 +117,8 @@
 
 <footer>
   A practice game, not a diagnosis. Anything new, changing, bleeding or that worries you: see a doctor.<br>
-  Images and biopsy-confirmed labels from the <a href="https://www.isic-archive.com" target="_blank" rel="noopener">ISIC Archive</a>.
-  · <a href="https://github.com/jaredpeters/skinder/blob/main/RIGHTS.md" target="_blank" rel="noopener">Rights</a>
+  Images and diagnoses from the <a href="https://www.isic-archive.com" target="_blank" rel="noopener">ISIC Archive</a>.
+  · <a href="https://github.com/jaredpeters/worth-a-look/blob/main/RIGHTS.md" target="_blank" rel="noopener">Rights</a>
   · <button id="reset">Reset score</button>
 </footer>
 

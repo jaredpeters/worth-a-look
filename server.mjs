@@ -1,4 +1,4 @@
-// Serves the Skinder static app. No outbound requests: photos load in the
+// Serves the Worth a Look static app. No outbound requests: photos load in the
 // viewer's browser straight from the ISIC Archive.
 import express from "express";
 import { fileURLToPath } from "node:url";
@@ -15,4 +15,4 @@ app.use(express.static(dir("./public"), { maxAge: 0 }));
 app.use("/about/play", express.static(dir("./public"), { maxAge: 0 }));
 app.use("/about", express.static(dir("./site"), { maxAge: 0 }));
 
-app.listen(PORT, HOST, () => console.log(`skinder on ${HOST}:${PORT}`));
+app.listen(PORT, HOST, () => console.log(`worth-a-look on ${HOST}:${PORT}`));

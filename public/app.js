@@ -1,6 +1,9 @@
-// Skinder: swipe biopsy-confirmed skin lesion photos. Left = looks fine, right = get it checked.
-const REQUEUE_AFTER = 30;  // a missed card comes back once, this many cards later
-const STORE_KEY = "skinder.v1";
+// Worth a Look: swipe real skin-spot photos. Left = looks fine, right = get it checked.
+const ROUND = 20;            // cards per round
+const CANCERS_PER_ROUND = 6; // 30%: plenty of cancer practice without making every spot look like one
+const RETRY_AFTER_ROUNDS = 1; // a missed card comes back once, in the round after next
+const HISTORY = 20;          // rounds kept per mode
+const STORE_KEY = "skinder.v1"; // original name kept so saved scores survive the rename
 
 const $ = (id) => document.getElementById(id);
 const stage = $("stage");
@@ -13,22 +16,27 @@ const MODES = {
   headneck: (c) => c.view === "clinical" && c.site === "Head and neck",
 };
 let mode = "clinical";
-let queue = [];            // upcoming cards for the current mode
+let pools = {};            // per mode: shuffled cancers and harmless ones still to deal
+let queue = [];            // cards left in this round
+let round = null;          // this round's tally and results
+let roundNo = 0;
+let retries = [];          // missed cards waiting for their one second look
+let retried = new Set();   // ids already given that second look
 let current = null;
 let answered = false;
-let retried = new Set();   // ids already given their one second look
-let flyTimer = null;      // pending switch to the answer card
+let flyTimer = null;       // pending switch to the answer card
 let score = load();
 
 function load() {
-  const s = Object.fromEntries(Object.keys(MODES).map((m) => [m, blank()]));
+  const s = blankScore();
   try {
     const saved = JSON.parse(localStorage.getItem(STORE_KEY)) || {};
-    for (const m in s) if (saved[m]) s[m] = saved[m];
+    for (const m in s) if (saved[m]) s[m] = { ...blank(), ...saved[m] };
   } catch {}
   return s;
 }
-function blank() { return { malignant: 0, caught: 0, benign: 0, cleared: 0 }; }
+function blank() { return { malignant: 0, caught: 0, benign: 0, cleared: 0, rounds: [] }; }
+function blankScore() { return Object.fromEntries(Object.keys(MODES).map((m) => [m, blank()])); }
 function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(score)); } catch {} }
 
 function shuffle(a) {
@@ -39,13 +47,27 @@ function shuffle(a) {
   return a;
 }
 
-// Half cancers, half harmless, regardless of how lopsided the archive is.
-function buildQueue() {
-  const pool = all.filter(MODES[mode]);
-  const mal = shuffle(pool.filter((c) => c.malignant));
-  const ben = shuffle(pool.filter((c) => !c.malignant));
-  const n = Math.min(mal.length, ben.length);
-  queue = shuffle(mal.slice(0, n).concat(ben.slice(0, n)));
+// Next unseen card of one kind; reshuffles that kind once every card has been dealt.
+function draw(malignant) {
+  const p = (pools[mode] ||= {});
+  const key = malignant ? "mal" : "ben";
+  if (!p[key] || !p[key].length) p[key] = shuffle(all.filter((c) => MODES[mode](c) && c.malignant === malignant));
+  return p[key].pop();
+}
+
+// A round is 6 cancers and 14 harmless spots. Missed cards that are due take a slot of their own kind.
+function buildRound() {
+  roundNo++;
+  const due = retries.filter((r) => r.mode === mode && r.round <= roundNo);
+  retries = retries.filter((r) => !due.includes(r));
+  const dueMal = due.filter((r) => r.card.malignant).map((r) => r.card).slice(0, CANCERS_PER_ROUND);
+  const dueBen = due.filter((r) => !r.card.malignant).map((r) => r.card).slice(0, ROUND - CANCERS_PER_ROUND);
+  const cards = [...dueMal, ...dueBen];
+  for (let i = dueMal.length; i < CANCERS_PER_ROUND; i++) cards.push(draw(true));
+  for (let i = dueBen.length; i < ROUND - CANCERS_PER_ROUND; i++) cards.push(draw(false));
+  queue = shuffle(cards);
+  round = { malignant: 0, caught: 0, benign: 0, cleared: 0, results: [] };
+  renderProgress();
 }
 
 function renderStats() {
@@ -54,11 +76,18 @@ function renderStats() {
   $("cleared").textContent = s.benign ? `${s.cleared} of ${s.benign}` : "–";
 }
 
+// One cell per card in the round: green right, red wrong, empty still to come.
+function renderProgress() {
+  const r = round ? round.results : [];
+  $("progress").innerHTML = Array.from({ length: ROUND }, (_, i) =>
+    `<i class="${r[i] === undefined ? "" : r[i] ? "ok" : "bad"}${i === r.length ? " now" : ""}"></i>`).join("");
+}
+
 function preload(c) { if (c) new Image().src = c.img; }
 
 function show() {
   clearTimeout(flyTimer);
-  if (!queue.length) buildQueue();
+  if (!round || (!queue.length && round.results.length >= ROUND)) buildRound();
   current = queue.shift();
   answered = false;
   queue.slice(0, 3).forEach(preload);
@@ -85,15 +114,23 @@ function answer(saidCheck) {
   answered = true;
   const s = score[mode];
   const right = saidCheck === current.malignant;
-  if (current.malignant) { s.malignant++; if (right) s.caught++; }
-  else { s.benign++; if (right) s.cleared++; }
+  for (const t of [s, round]) {
+    if (current.malignant) { t.malignant++; if (right) t.caught++; }
+    else { t.benign++; if (right) t.cleared++; }
+  }
+  round.results.push(right);
   const retry = !right && !retried.has(current.id);
   if (retry) {
     retried.add(current.id);
-    queue.splice(Math.min(REQUEUE_AFTER, queue.length), 0, current);
+    retries.push({ card: current, mode, round: roundNo + 1 + RETRY_AFTER_ROUNDS });
+  }
+  if (round.results.length >= ROUND) {
+    const { malignant, caught, benign, cleared } = round;
+    s.rounds = [...s.rounds, { malignant, caught, benign, cleared }].slice(-HISTORY);
   }
   save();
   renderStats();
+  renderProgress();
 
   $("actions").innerHTML = `<button id="next">Next ↑</button>`;
   $("next").onclick = next;
@@ -119,8 +156,8 @@ function showResult(right, retry) {
       <div class="verdict ${right ? "ok" : "bad"}">
         <div class="big">${big}</div>
         <div class="truth">${truth}</div>
-        <div class="dx">${current.dx} · confirmed by biopsy</div>
-        ${retry ? `<div class="again">You'll see this one again in a while.</div>` : ""}
+        <div class="dx">${current.dx} · ${current.confirm === "experts" ? "judged harmless by dermatologists" : "confirmed by biopsy"}</div>
+        ${retry ? `<div class="again">You'll see this one again in a later round.</div>` : ""}
       </div>
       <img src="${current.img}" alt="Skin lesion photo ${current.id}">
       ${mode === "headneck" && current.malignant ? `<div class="say"><b>You could say:</b> “I noticed a spot on your
@@ -169,7 +206,33 @@ function next() {
   card.classList.remove("anim", "pop");
   card.classList.add("fly");
   card.style.transform = "translateY(-120vh)";
-  flyTimer = setTimeout(show, 250);
+  flyTimer = setTimeout(round.results.length >= ROUND ? showSummary : show, 250);
+}
+
+// End of round: how it went, how it compares with recent rounds, and a reminder about real-life odds.
+function showSummary() {
+  answered = false;
+  current = null;
+  const r = round;
+  const pct = (a, b) => (b ? Math.round((100 * a) / b) : 0);
+  const recent = score[mode].rounds.slice(-8);
+  const bars = recent.map((x, i) => {
+    const p = pct(x.caught + x.cleared, x.malignant + x.benign);
+    return `<div class="bar${i === recent.length - 1 ? " last" : ""}"><span style="height:${p}%"></span><em>${p}%</em></div>`;
+  }).join("");
+  stage.innerHTML = `
+    <div class="card pop summary" id="card">
+      <div class="verdict ok"><div class="big">Round done</div>
+        <div class="truth">${r.caught + r.cleared} of ${ROUND} right</div></div>
+      <div class="sum-body">
+        <p><b>Cancers flagged:</b> ${r.caught} of ${r.malignant}<br><b>Harmless spots cleared:</b> ${r.cleared} of ${r.benign}</p>
+        ${recent.length > 1 ? `<div class="bars">${bars}</div><p class="small">Your last ${recent.length} rounds</p>` : ""}
+        <p class="small">${CANCERS_PER_ROUND} of these ${ROUND} were cancer, so you get enough practice on them. In real
+          life almost every spot you see is harmless. The skill is noticing the rare one that isn't.</p>
+      </div>
+    </div>`;
+  $("actions").innerHTML = `<button id="next">Next round →</button>`;
+  $("next").onclick = () => { round = null; show(); };
 }
 
 function attachSwipe(card) {
@@ -205,27 +268,28 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") answer(false);
   else if (e.key === "ArrowRight") answer(true);
   else if ((e.key === " " || e.key === "Enter" || e.key === "ArrowUp") && answered) { e.preventDefault(); next(); }
+  else if ((e.key === " " || e.key === "Enter") && $("card")?.classList.contains("summary")) { e.preventDefault(); $("next").click(); }
 });
 
 document.querySelectorAll(".modes button").forEach((b) => {
   b.onclick = () => {
     mode = b.dataset.mode;
     document.querySelectorAll(".modes button").forEach((x) => x.setAttribute("aria-pressed", x === b));
-    buildQueue();
+    round = null;
     renderStats();
     show();
   };
 });
 
 $("reset").onclick = () => {
-  score = { clinical: blank(), dermoscopic: blank() };
+  score = blankScore();
   save();
   renderStats();
 };
 
 fetch("data/deck.json")
   .then((r) => { if (!r.ok) throw new Error(`deck.json: HTTP ${r.status}`); return r.json(); })
-  .then((d) => { all = d.cards; buildQueue(); renderStats(); show(); })
+  .then((d) => { all = d.cards; renderStats(); show(); })
   .catch((e) => {
     stage.innerHTML = `<div class="msg">Could not load the image deck (${e.message}).<br>
       Run <code>python3 scripts/build_deck.py</code>, then start the server with

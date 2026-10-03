@@ -1,8 +1,11 @@
 """Build public/data/deck.json from the ISIC Archive.
 
-Keeps only images whose diagnosis was confirmed by biopsy (histopathology)
-and whose top-level diagnosis is Benign or Malignant. Indeterminate cases are
-left out, because there is no answer to grade a swipe against.
+Keeps images whose top-level diagnosis is Benign or Malignant, confirmed by
+biopsy (histopathology). Everyday-camera photos of harmless spots are scarce
+with a biopsy, so for those it also takes spots a panel of dermatologists
+judged harmless from the photo ("single image expert consensus"); each card
+records which kind of confirmation it has. Indeterminate cases are left out,
+because there is no answer to grade a swipe against.
 
 Usage: python3 scripts/build_deck.py [--derm-per-class 1500]
 """
@@ -52,6 +55,7 @@ def card(r, view):
         "site_detail": c.get("anatom_site_3") or c.get("anatom_site_2"),
         "age": c.get("age_approx"),
         "sex": c.get("sex"),
+        "confirm": "biopsy" if c.get("diagnosis_confirm_type") == "histopathology" else "experts",
         "license": r.get("copyright_license"),
         "attribution": r.get("attribution"),
     }
@@ -69,6 +73,10 @@ def main():
         print("clinical", dx)
         cards += [card(r, "clinical") for r in fetch(q)]
         q = f'{base} AND diagnosis_1:"{dx}" AND image_type:"dermoscopic"'
+        if dx == "Benign":
+            qe = 'diagnosis_confirm_type:"single image expert consensus" AND diagnosis_1:"Benign" AND image_type:"clinical: close-up"'
+            print("clinical Benign, expert consensus")
+            cards += [card(r, "clinical") for r in fetch(qe)]
         print("dermoscopic", dx)
         cards += [card(r, "dermoscopic") for r in fetch(q, args.derm_per_class)]
 

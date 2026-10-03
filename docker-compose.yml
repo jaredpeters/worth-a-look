@@ -1,11 +1,11 @@
 # Static app, no state, no outbound calls from the container.
-name: skinder
+name: worth-a-look
 
 services:
-  skinder-web:
+  web:
     build: .
-    image: skinder:latest
-    container_name: skinder-web
+    image: worth-a-look:latest
+    container_name: worth-a-look-web
     restart: unless-stopped
     ports:
       - "127.0.0.1:8140:8140"      # loopback only; put a reverse proxy in front to share it

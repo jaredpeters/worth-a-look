@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Skinder</title>
-<meta name="description" content="A swipe game for learning which skin spots are worth showing a doctor, using thousands of biopsy-confirmed photos from the ISIC Archive.">
-<meta property="og:title" content="Skinder">
-<meta property="og:description" content="Swipe through real, biopsy-confirmed skin spots. Learn which ones need a doctor.">
+<title>Worth a Look</title>
+<meta name="description" content="A swipe game for learning which skin spots are worth showing a doctor, using thousands of real photos with a known diagnosis from the ISIC Archive.">
+<meta property="og:title" content="Worth a Look">
+<meta property="og:description" content="Swipe through real skin spots with a known diagnosis. Learn which ones are worth a doctor's look.">
 <meta property="og:image" content="img/answer.png">
 <link rel="stylesheet" href="play/fonts/fonts.css">
 <style>
@@ -113,29 +113,29 @@
 
 <div class="wrap">
   <nav class="top">
-    <span class="sticker logo">Skinder</span>
-    <a class="gh on-bg" href="https://github.com/jaredpeters/skinder">GitHub →</a>
+    <span class="sticker logo">Worth a Look</span>
+    <a class="gh on-bg" href="https://github.com/jaredpeters/worth-a-look">GitHub →</a>
   </nav>
 
   <header class="hero">
     <div>
-      <h1 class="on-bg">Swipe through real skin spots. Learn which ones <mark>need a doctor.</mark></h1>
-      <p class="lead on-bg">Skinder shows you photos of moles and skin growths that were later checked by biopsy.
+      <h1 class="on-bg">Swipe through real skin spots. Learn which ones are <mark>worth a look.</mark></h1>
+      <p class="lead on-bg">Worth a Look shows you real photos of moles and skin growths whose diagnosis is known, nearly all from a biopsy.
         You swipe left if it looks fine and right if you'd get it checked, and the real answer appears straight away.
         After a few hundred swipes you start to see what doctors look for.</p>
       <div class="ctas">
         <a class="btn play" href="play/">Play now →</a>
-        <a class="btn code" href="https://github.com/jaredpeters/skinder">See the code</a>
+        <a class="btn code" href="https://github.com/jaredpeters/worth-a-look">See the code</a>
       </div>
     </div>
     <div class="phone">
-      <img class="tilt" src="img/question.png" alt="Skinder showing a photo of a skin spot with the patient's age and body site, and two buttons: Looks fine and Get it checked.">
+      <img class="tilt" src="img/question.png" alt="Worth a Look showing a photo of a skin spot with the patient's age and body site, and two buttons: Looks fine and Get it checked.">
       <img class="back" src="img/answer.png" alt="">
     </div>
   </header>
 
   <div class="numbers">
-    <div class="box"><b>9,159</b>photos, every one confirmed by biopsy</div>
+    <div class="box"><b>9,565</b>real photos with a known diagnosis</div>
     <div class="box"><b>3</b>modes: everyday photos, head and neck, and a dermatologist's magnifier</div>
     <div class="box"><b>0</b>accounts, cookies or analytics. Your score stays on your device.</div>
   </div>
@@ -148,12 +148,12 @@
       <div class="box step"><div class="n">2</div><h3>Swipe</h3>
         <p>Left means it looks fine. Right means you'd get it checked. Buttons and arrow keys work as well.</p></div>
       <div class="box step"><div class="n">3</div><h3>Learn</h3>
-        <p>The biopsy result appears with the diagnosis. Any photo you got wrong comes back once, about 30 cards later.</p></div>
+        <p>The answer appears with the diagnosis. Every 20 photos you get a score and a chart of your recent rounds. Any photo you got wrong comes back once, two rounds later.</p></div>
     </div>
     <div class="shots">
       <figure><img src="img/question.png" alt="A card waiting for your answer."><figcaption>A new spot to judge</figcaption></figure>
       <figure><img src="img/swipe.png" alt="The card being dragged right, with a red CHECK stamp."><figcaption>Swipe right: get it checked</figcaption></figure>
-      <figure><img src="img/answer.png" alt="The answer card: Caught it. This was cancer. Melanoma in situ, confirmed by biopsy."><figcaption>The biopsy answer</figcaption></figure>
+      <figure><img src="img/answer.png" alt="The answer card: Caught it. This was cancer. Melanoma, confirmed by biopsy."><figcaption>The biopsy answer</figcaption></figure>
     </div>
   </section>
 
@@ -161,18 +161,20 @@
     <h2 class="section-title"><span>Where the photos come from</span></h2>
     <div class="box" style="margin-bottom:26px">
       <p style="margin-top:0">Every photo comes from the <a href="https://www.isic-archive.com">ISIC Archive</a>, a public
-        collection of skin images run by the International Skin Imaging Collaboration. Skinder keeps only photos whose
-        diagnosis was confirmed by biopsy: a doctor removed the spot and a lab examined it under a microscope. Photos the lab
-        couldn't call either way are left out, because there would be no answer to score you against.</p>
+        collection of skin images run by the International Skin Imaging Collaboration. Every cancer in Worth a Look was
+        confirmed by biopsy: a doctor removed the spot and a lab examined it under a microscope. So was almost every harmless
+        spot. Everyday photos of harmless spots with a biopsy are scarce, so the game adds 406 that several dermatologists
+        agreed were harmless from the photo, and each answer says which kind of check it had. Photos with no clear answer
+        are left out, because there would be no answer to score you against.</p>
       <p style="margin-bottom:0">Photos load straight from the archive into your browser. Each answer card shows the
         photo's license and who took it, with a link to its page in the archive.</p>
     </div>
     <div class="modes">
       <div class="box"><h3>Naked eye</h3>
-        <p>6,159 ordinary close-up photos, like one you'd take with a phone. This is the view you have of your own skin.</p>
-        <p>4,781 cancers and 1,378 harmless spots. Each round is dealt half and half.</p></div>
+        <p>6,565 ordinary close-up photos, like one you'd take with a phone. This is the view you have of your own skin.</p>
+        <p>4,781 cancers and 1,784 harmless spots. Each round of 20 has 6 cancers.</p></div>
       <div class="box" style="background:var(--pink)"><h3>Head &amp; neck</h3>
-        <p>The 1,925 everyday photos taken on the face, ears, neck and scalp. Built for barbers, hairdressers and
+        <p>The 2,085 everyday photos taken on the face, ears, neck and scalp. Built for barbers, hairdressers and
           estheticians, who see those places on other people every day.</p>
         <p>After each cancer it shows a sentence you could say to a client.</p></div>
       <div class="box"><h3>Dermoscope</h3>
@@ -215,7 +217,7 @@
         and a <a href="https://www.jcu.edu.au/news/releases/2023/june/hairdressers-to-look-for-dangerous-cancers">James Cook
         University program</a> in Australia. Researchers have also studied
         <a href="https://karger.com/drm/article/240/1/59/869535/Examining-the-Role-of-Estheticians-in-Skin-Cancer">estheticians' role</a>.
-        Skinder adds the part those programs can't easily offer: practice on hundreds of real cases with a confirmed answer.</p>
+        Worth a Look adds the part those programs can't easily offer: practice on hundreds of real cases with a confirmed answer.</p>
       <p>The job here is to notice and suggest a doctor, never to diagnose. Head &amp; neck mode shows a sentence for
         that after every cancer, such as: <i>"I noticed a spot on your neck. Might be worth having a doctor look at it."</i></p>
       <p style="margin-bottom:0"><b>One gap:</b> the archive has very few scalp photos. Most head and neck photos are of the
@@ -229,9 +231,9 @@
       <ol>
         <li><b>It can't tell you about your own skin.</b> It's a practice game. Anything new, changing, bleeding or
           worrying you should be seen by a doctor, whatever your score says.</li>
-        <li><b>Half of every round is cancer.</b> In real life almost every spot is harmless. The even split is there so
-          you get enough practice on both, but it can make every mole start to look suspicious.</li>
-        <li><b>The harmless photos are harder than real life.</b> They were suspicious enough that a doctor took a biopsy.
+        <li><b>6 in every 20 photos are cancer.</b> In real life almost every spot is harmless. Rounds lean harmless so
+          every mole doesn't start to look suspicious, while still giving enough practice on cancers.</li>
+        <li><b>Most harmless photos are harder than real life.</b> They were suspicious enough that a doctor took a biopsy.
           Your everyday moles look far more ordinary.</li>
         <li><b>Most naked-eye cancers are basal cell carcinoma,</b> the most common and least dangerous skin cancer.
           Melanoma practice is stronger in dermoscope mode.</li>
@@ -250,19 +252,19 @@
         <p>Each belongs to its contributor to the ISIC Archive, under CC0, CC BY or CC BY-NC. Every answer card credits
           the photo with its ISIC ID, contributor and license.</p></div>
       <div class="box step"><h3>Non-commercial</h3>
-        <p>Skinder is free, has no ads and will not be sold. Over half the photos only allow non-commercial use.</p></div>
+        <p>Worth a Look is free, has no ads and will not be sold. Over half the photos only allow non-commercial use.</p></div>
     </div>
     <p class="on-bg" style="margin-top:26px">No accounts, cookies or analytics. Your score stays in your browser, and the
       fonts are bundled, so the only outside requests are for the photos. The full details, including how to ask for a
-      photo to be removed, are in <a href="https://github.com/jaredpeters/skinder/blob/main/RIGHTS.md">RIGHTS.md</a>.</p>
+      photo to be removed, are in <a href="https://github.com/jaredpeters/worth-a-look/blob/main/RIGHTS.md">RIGHTS.md</a>.</p>
   </section>
 
   <section>
     <h2 class="section-title"><span>Run it yourself</span></h2>
     <div class="box">
       <p style="margin-top:0">It's a static web page with a small Node server. No build step, no database.</p>
-      <pre>git clone https://github.com/jaredpeters/skinder.git
-cd skinder
+      <pre>git clone https://github.com/jaredpeters/worth-a-look.git
+cd worth-a-look
 npm install
 npm start            # open http://localhost:8140</pre>
       <p>Or with Docker: <code>docker compose up -d</code>.</p>
@@ -274,11 +276,11 @@ npm start            # open http://localhost:8140</pre>
 
 <footer>
   <div class="wrap">
-    <p><b>Skinder is a practice game. It doesn't diagnose anything.</b> If a spot on your skin worries you, see a doctor.</p>
+    <p><b>Worth a Look is a practice game. It doesn't diagnose anything.</b> If a spot on your skin worries you, see a doctor.</p>
     <p>Images and diagnoses: <a href="https://www.isic-archive.com">ISIC Archive</a>, under CC-0, CC-BY and CC-BY-NC
       licenses as marked on each photo. Screenshots on this page show photo ISIC_0024258 (CC0). Code under the MIT
       license. Fonts under the SIL Open Font License. Not affiliated with or endorsed by the International Skin Imaging
-      Collaboration. <a href="https://github.com/jaredpeters/skinder/blob/main/RIGHTS.md">Rights and licenses</a>.</p>
+      Collaboration. <a href="https://github.com/jaredpeters/worth-a-look/blob/main/RIGHTS.md">Rights and licenses</a>.</p>
   </div>
 </footer>
 
