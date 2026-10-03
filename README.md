@@ -12,6 +12,10 @@ Worth a Look shows you real photos of moles and skin growths whose diagnosis is 
 
 > **Worth a Look is a practice game. It doesn't diagnose anything.** If a spot on your skin worries you, see a doctor.
 
+## Why this exists
+
+People miss many skin cancers on their own, especially on the scalp, head and neck. Barbers, hairdressers and estheticians see those places up close every few weeks. In one study, hairdressers first spotted 10% of the scalp and neck melanomas a cancer center treated. Few of these professionals have had any skin cancer training, and most say they'd like some. Studies show short training helps. Worth a Look adds free practice on hundreds of real cases. The project page has the research, with a link to every study.
+
 ## What's in it
 
 - **9,565 photos from the [ISIC Archive](https://www.isic-archive.com)** with a known diagnosis. Every cancer was confirmed by biopsy, and so was every harmless spot except 406 everyday photos that dermatologists agreed were harmless from the photo. Photos with no clear answer are left out.

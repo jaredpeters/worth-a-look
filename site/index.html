@@ -81,7 +81,9 @@
   .modes .box p { margin: 0 0 10px; } .modes .box p:last-child { margin: 0; }
 
   /* evidence */
-  .evidence { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+  .evidence { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 22px; }
+  .why-intro { background: var(--blue); margin-bottom: 34px; font-size: 20px; }
+  .why-h { font-size: 26px; margin: 34px 0 18px; } .why-h:first-of-type { margin-top: 0; }
   .evidence b { display: block; font: 34px/1.05 var(--display); }
   .evidence p { margin: 10px 0; font-size: 16px; }
   .evidence a { font-size: 14px; font-weight: 700; }
@@ -127,7 +129,7 @@
         After a few hundred swipes you start to see what doctors look for.</p>
       <div class="ctas">
         <a class="btn play" href="play/">Play now →</a>
-        <a class="btn code" href="https://github.com/jaredpeters/worth-a-look">See the code</a>
+        <a class="btn code" href="#why">Why this exists</a>
       </div>
     </div>
     <div class="phone">
@@ -141,6 +143,78 @@
     <div class="box"><b>3</b>modes: everyday photos, head and neck, and a dermatologist's magnifier</div>
     <div class="box"><b>0</b>accounts, cookies or analytics. Your score stays on your device.</div>
   </div>
+
+  <section id="why">
+    <h2 class="section-title"><span>Why this exists</span></h2>
+    <div class="box why-intro">
+      <p style="margin-top:0">Skin cancer is far easier to treat when it's found early, and it is usually found by someone
+        looking at skin. People miss a lot on their own. One study puts it at about half of all melanomas, and the
+        ones people miss are mostly on the scalp, head and neck, which are hard to see in a mirror.</p>
+      <p>Barbers, hairdressers and estheticians look at exactly those places, up close, every few weeks. Many already
+        keep an eye out. Few have ever been taught what to look for, and most say they would like to learn.</p>
+      <p style="margin-bottom:0">Worth a Look is free practice for them, and for anyone else who wants to get better at
+        noticing. The research behind that is below. Every number links to its study.</p>
+    </div>
+
+    <h3 class="why-h">They already notice</h3>
+    <div class="evidence">
+      <div class="box"><b>10%</b>
+        <p>of scalp and neck melanomas treated at Emory's cancer center in Atlanta were first spotted by a hairdresser. Those patients were younger, 53 against 66, and their melanomas were more often caught at an early stage: 67% against 45%.</p>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/27550617/">Lovasik et al., Annals of Surgical Oncology, 2016</a></div>
+      <div class="box"><b>37%</b>
+        <p>of 203 hair professionals in Houston had checked more than half their customers' scalps for suspicious spots in the past month. 29% did the same for necks, and 15% for faces.</p>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/22006132/">Bailey et al., Archives of Dermatology, 2011</a></div>
+      <div class="box"><b>About half</b>
+        <p>of melanomas go unnoticed by the person themselves, mostly ones on the scalp, head and neck. A study of cosmetology students starts from this figure.</p>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/31081582/">Radisic et al., Journal of Cosmetic Dermatology, 2020</a></div>
+    </div>
+
+    <h3 class="why-h">Few have been trained, and most want it</h3>
+    <div class="evidence">
+      <div class="box"><b>28%</b>
+        <p>of those 203 Houston hair professionals had any formal skin cancer education. 49% were very or extremely interested in a training program.</p>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/22006132/">Bailey et al., Archives of Dermatology, 2011</a></div>
+      <div class="box"><b>5%</b>
+        <p>of 37 UK hairdressers and barbers had any skin cancer awareness training. 92% said they would like some, or might.</p>
+        <a href="https://academic.oup.com/skinhd/article/5/3/203/8117746">Skin Health and Disease, 2025</a></div>
+      <div class="box"><b>43% → 3%</b>
+        <p>of 194 cosmetology students at seven Florida schools felt underprepared to check clients for unusual spots before a single skin cancer talk, and after it.</p>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/31081582/">Radisic et al., Journal of Cosmetic Dermatology, 2020</a></div>
+    </div>
+
+    <h3 class="why-h">Training works</h3>
+    <div class="evidence">
+      <div class="box"><b>9,872</b>
+        <p>hair, skin and massage professionals in Oregon took an online course. Afterwards their level of concern for each spot matched doctors' ratings significantly better, and they felt more comfortable talking to clients about it.</p>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/39219284/">Diehl et al., Journal of Cosmetic Dermatology, 2024</a></div>
+      <div class="box"><b>504</b>
+        <p>estheticians took part in a training study. Those who had been on a skin cancer course before were more likely to suggest a client see a doctor, and after the training most felt very comfortable doing so.</p>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/37926076/">Walker et al., Dermatology, 2024</a></div>
+      <div class="box"><b>19% → 41%</b>
+        <p>of 100 hairdressers felt very confident spotting melanoma after a 5-minute video. Correct answers on the warning signs rose from 59% to 71%.</p>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/29214298/">Black et al., JAMA Dermatology, 2018</a></div>
+      <div class="box"><b>75% → 86%</b>
+        <p>correct for 36 medical students who practiced with a swipe app on photos of real spots, against 75% → 78% for students taught the usual way.</p>
+        <a href="https://jamanetwork.com/journals/jamadermatology/fullarticle/2681554">Lacy et al., JAMA Dermatology, 2018</a></div>
+    </div>
+
+    <div class="box" style="margin-top:26px">
+      <p style="margin-top:0">A review of 16 studies reached the same conclusion: these professionals are open to looking at
+        the skin they already work on, and willing to send clients to a doctor when something looks wrong
+        (<a href="https://pubmed.ncbi.nlm.nih.gov/34047438/">Pearlman et al., 2021</a>). Training programs already exist,
+        among them <a href="https://pubmed.ncbi.nlm.nih.gov/37128268/">Stylists Saving Lives</a>, the
+        <a href="https://www.accc-cancer.org/acccbuzz/blog-post-template/accc-buzz/2019/11/14/the-hairstylist-melanoma-challenge">Hairstylist Melanoma Challenge</a>
+        and a <a href="https://www.jcu.edu.au/news/releases/2023/june/hairdressers-to-look-for-dangerous-cancers">James Cook
+        University program</a> in Australia.</p>
+      <p><b>What was missing</b> is a free place to practice on hundreds of real cases with a known answer, a few minutes
+        at a time, between clients. Courses teach the warning signs. Worth a Look lets you see them over and over until
+        you start to recognize them.</p>
+      <p>The job is to notice and suggest a doctor, never to diagnose. Head &amp; neck mode shows a sentence for that after
+        every cancer, such as: <i>"I noticed a spot on your neck. Might be worth having a doctor look at it."</i></p>
+      <p style="margin-bottom:0"><b>One gap:</b> the archive has very few scalp photos. Most head and neck photos are of the
+        face, neck and ears.</p>
+    </div>
+  </section>
 
   <section>
     <h2 class="section-title"><span>How it works</span></h2>
@@ -183,47 +257,6 @@
         <p>3,000 photos through a dermatoscope, the lit magnifier a skin doctor presses against the skin. Patterns show
           up that you can't see by eye.</p>
         <p>1,500 cancers and 1,500 harmless spots.</p></div>
-    </div>
-  </section>
-
-  <section>
-    <h2 class="section-title"><span>For barbers, hairdressers and estheticians</span></h2>
-    <div class="box" style="background:var(--blue); margin-bottom:26px">
-      <p style="margin-top:0">People can't easily check their own scalp, the back of their neck or behind their ears.
-        Their barber, hairdresser or esthetician looks at those places up close every few weeks. Melanomas there are
-        often found late, and they are among the more dangerous ones.</p>
-      <p style="margin-bottom:0">Researchers have been asking whether these professionals could help catch them. The
-        studies so far suggest they can, and that a little training goes a long way.</p>
-    </div>
-    <div class="evidence">
-      <div class="box"><b>10%</b>
-        <p>of scalp and neck melanomas treated at Emory's cancer center in Atlanta were first spotted by a hairdresser.
-          Those were found at an early stage more often: 67% against 45%.</p>
-        <a href="https://pubmed.ncbi.nlm.nih.gov/27550617/">Lovasik et al., Annals of Surgical Oncology, 2016</a></div>
-      <div class="box"><b>37%</b>
-        <p>of hair professionals surveyed in Texas checked the scalps of at least half their customers.</p>
-        <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12202860/">Bailey et al., 2011, as cited in the UK study</a></div>
-      <div class="box"><b>19% → 41%</b>
-        <p>of 100 hairdressers felt very confident spotting melanoma after a 5-minute video. Correct answers on the
-          warning signs rose from 59% to 71%.</p>
-        <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5839281/">Black et al., JAMA Dermatology, 2018</a></div>
-      <div class="box"><b>5%</b>
-        <p>of UK hairdressers and barbers surveyed had had any skin cancer training. 92% said they would like some, or
-          might.</p>
-        <a href="https://academic.oup.com/skinhd/article/5/3/203/8117746">Skin Health and Disease, 2025</a></div>
-    </div>
-    <div class="box" style="margin-top:26px">
-      <p style="margin-top:0">Training programs already exist, among them
-        <a href="https://pubmed.ncbi.nlm.nih.gov/37128268/">Stylists Saving Lives</a>, the
-        <a href="https://www.accc-cancer.org/acccbuzz/blog-post-template/accc-buzz/2019/11/14/the-hairstylist-melanoma-challenge">Hairstylist Melanoma Challenge</a>
-        and a <a href="https://www.jcu.edu.au/news/releases/2023/june/hairdressers-to-look-for-dangerous-cancers">James Cook
-        University program</a> in Australia. Researchers have also studied
-        <a href="https://karger.com/drm/article/240/1/59/869535/Examining-the-Role-of-Estheticians-in-Skin-Cancer">estheticians' role</a>.
-        Worth a Look adds the part those programs can't easily offer: practice on hundreds of real cases with a confirmed answer.</p>
-      <p>The job here is to notice and suggest a doctor, never to diagnose. Head &amp; neck mode shows a sentence for
-        that after every cancer, such as: <i>"I noticed a spot on your neck. Might be worth having a doctor look at it."</i></p>
-      <p style="margin-bottom:0"><b>One gap:</b> the archive has very few scalp photos. Most head and neck photos are of the
-        face, neck and ears.</p>
     </div>
   </section>
 
