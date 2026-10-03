@@ -1,10 +1,12 @@
 # Publishes the project page and the game to GitHub Pages:
 #   /       -> site/   (the project page)
 #   /play/  -> public/ (the game)
-# Manual for now. Add `push: { branches: [main] }` under `on:` once the repo is public.
+# Runs on every push to main, or by hand from the Actions tab.
 name: Pages
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
