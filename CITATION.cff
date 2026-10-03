@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use Worth a Look in teaching or research, please cite it as below."
+type: software
+title: "Worth a Look"
+abstract: >-
+  A swipe game for learning which skin spots are worth showing a doctor. Players judge
+  real photos with a known diagnosis from the ISIC Archive and get the answer straight
+  away. It includes a head and neck mode for barbers, hairdressers and estheticians, and
+  a repeatable 20-photo skill check for measuring improvement.
+authors:
+  - family-names: Peters
+    given-names: Jared
+version: 0.1.0
+license: MIT
+repository-code: "https://github.com/jaredpeters/worth-a-look"
+url: "https://jaredpeters.github.io/worth-a-look/"
+keywords:
+  - dermatology
+  - skin cancer
+  - melanoma
+  - medical education
+  - perceptual learning
+  - ISIC Archive
+references:
+  - type: database
+    title: "ISIC Archive"
+    authors:
+      - name: "International Skin Imaging Collaboration"
+    url: "https://www.isic-archive.com"

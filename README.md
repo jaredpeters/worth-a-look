@@ -19,6 +19,8 @@ Worth a Look shows you real photos of moles and skin growths whose diagnosis is 
 - **Dermoscope mode:** 3,000 photos through the lit magnifier a skin doctor uses.
 - **Head & neck mode:** the 2,085 everyday photos of the face, ears, neck and scalp, for barbers, hairdressers and estheticians. After each cancer it shows a sentence to say to a client. Research on why this matters is on the project page.
 - Rounds of 20 photos, 6 of them cancer, ending with your score and a chart of your recent rounds. A photo you get wrong comes back once, two rounds later.
+- **Skill check:** 20 fixed photos, half cancer, with no answers until the end. Take it again after some practice to see how much you've improved. Two sets take turns, and neither appears in normal rounds.
+- **What it often looks like:** for the five most common diagnoses, the answer card can show a short description of what that diagnosis usually looks like, with a link to the NHS or American Academy of Dermatology page it's based on.
 - No accounts and no tracking. Your score is kept in your browser.
 
 ## Limits
@@ -28,6 +30,7 @@ Worth a Look shows you real photos of moles and skin growths whose diagnosis is 
 - Most naked-eye cancers are basal cell carcinoma. Melanoma practice is stronger in dermoscope mode.
 - Most photos show lighter skin.
 - The archive has very few scalp photos.
+- The diagnosis notes have not yet been reviewed by a dermatologist.
 
 ## Run it
 
@@ -50,6 +53,8 @@ python3 scripts/build_deck.py
 |---|---|
 | `public/` | The game: one HTML page and one script |
 | `site/` | The project page |
+| `scripts/make_checks.py` | Picks the two fixed skill-check sets (run once) |
+| `public/notes.js` | The diagnosis notes and their sources |
 | `scripts/build_deck.py` | Fetches photos with a confirmed diagnosis from the ISIC API |
 | `server.mjs` | Small Express server. Serves the game at `/` and the project page at `/about/` |
 

@@ -4,6 +4,7 @@ const CANCERS_PER_ROUND = 6; // 30%: plenty of cancer practice without making ev
 const RETRY_AFTER_ROUNDS = 1; // a missed card comes back once, in the round after next
 const HISTORY = 20;          // rounds kept per mode
 const STORE_KEY = "skinder.v1"; // original name kept so saved scores survive the rename
+const CHECKS_KEY = "skinder.checks";
 
 const $ = (id) => document.getElementById(id);
 const stage = $("stage");
@@ -26,6 +27,10 @@ let current = null;
 let answered = false;
 let flyTimer = null;       // pending switch to the answer card
 let score = load();
+let checkSets = [];        // the two fixed skill checks, as lists of cards
+let checkIds = new Set();  // their photos never appear in normal rounds
+let check = null;          // the skill check in progress: { set, cards, said: [] }
+let checks = loadChecks(); // finished skill checks
 
 function load() {
   const s = blankScore();
@@ -37,6 +42,10 @@ function load() {
 }
 function blank() { return { malignant: 0, caught: 0, benign: 0, cleared: 0, rounds: [] }; }
 function blankScore() { return Object.fromEntries(Object.keys(MODES).map((m) => [m, blank()])); }
+function loadChecks() {
+  try { return JSON.parse(localStorage.getItem(CHECKS_KEY)) || []; } catch { return []; }
+}
+function saveChecks() { try { localStorage.setItem(CHECKS_KEY, JSON.stringify(checks)); } catch {} }
 function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(score)); } catch {} }
 
 function shuffle(a) {
@@ -51,7 +60,7 @@ function shuffle(a) {
 function draw(malignant) {
   const p = (pools[mode] ||= {});
   const key = malignant ? "mal" : "ben";
-  if (!p[key] || !p[key].length) p[key] = shuffle(all.filter((c) => MODES[mode](c) && c.malignant === malignant));
+  if (!p[key] || !p[key].length) p[key] = shuffle(all.filter((c) => MODES[mode](c) && c.malignant === malignant && !checkIds.has(c.id)));
   return p[key].pop();
 }
 
@@ -78,6 +87,11 @@ function renderStats() {
 
 // One cell per card in the round: green right, red wrong, empty still to come.
 function renderProgress() {
+  if (check) {  // no right or wrong colors during a check: answers come at the end
+    $("progress").innerHTML = check.cards.map((_, i) =>
+      `<i class="${i < check.said.length ? "done" : ""}${i === check.said.length ? " now" : ""}"></i>`).join("");
+    return;
+  }
   const r = round ? round.results : [];
   $("progress").innerHTML = Array.from({ length: ROUND }, (_, i) =>
     `<i class="${r[i] === undefined ? "" : r[i] ? "ok" : "bad"}${i === r.length ? " now" : ""}"></i>`).join("");
@@ -87,10 +101,13 @@ function preload(c) { if (c) new Image().src = c.img; }
 
 function show() {
   clearTimeout(flyTimer);
-  if (!round || (!queue.length && round.results.length >= ROUND)) buildRound();
-  current = queue.shift();
+  if (check) current = check.cards[check.said.length];
+  else {
+    if (!round || !queue.length) buildRound();
+    current = queue.shift();
+  }
   answered = false;
-  queue.slice(0, 3).forEach(preload);
+  (check ? check.cards.slice(check.said.length + 1, check.said.length + 4) : queue.slice(0, 3)).forEach(preload);
   const where = current.site_detail || current.site;
   const site = where ? where.toLowerCase() : "site unknown";
   const age = current.age ? `age ${current.age}` : "age unknown";
@@ -112,6 +129,7 @@ function show() {
 function answer(saidCheck) {
   if (answered || !current) return;
   answered = true;
+  if (check) return answerCheck(saidCheck);
   const s = score[mode];
   const right = saidCheck === current.malignant;
   for (const t of [s, round]) {
@@ -145,6 +163,7 @@ function answer(saidCheck) {
 }
 
 function showResult(right, retry) {
+  const note = noteFor(current.dx);
   let big, truth;
   if (right && current.malignant) [big, truth] = ["✓ Caught it", "This was cancer"];
   else if (right) [big, truth] = ["✓ Right", "This was harmless"];
@@ -158,6 +177,7 @@ function showResult(right, retry) {
         <div class="truth">${truth}</div>
         <div class="dx">${current.dx} · ${current.confirm === "experts" ? "judged harmless by dermatologists" : "confirmed by biopsy"}</div>
         ${retry ? `<div class="again">You'll see this one again in a later round.</div>` : ""}
+        ${note ? `<button class="why" id="why">${note.title} ▾</button>` : ""}
       </div>
       <img src="${current.img}" alt="Skin lesion photo ${current.id}">
       ${mode === "headneck" && current.malignant ? `<div class="say"><b>You could say:</b> “I noticed a spot on your
@@ -165,7 +185,18 @@ function showResult(right, retry) {
       <div class="meta credit"><span>${current.id} · ${current.attribution || "ISIC Archive"} · ${current.license}</span>
         <a href="https://api.isic-archive.com/images/${current.id}/" target="_blank" rel="noopener">view on ISIC</a></div>
       <div class="hint">↑ swipe up for next</div>
+      ${note ? `<div class="notes" id="notes" hidden>
+        <button class="close" id="closeNotes" aria-label="Close">✕</button>
+        <h3>${note.title}</h3>
+        <ul>${note.points.map((x) => `<li>${x}</li>`).join("")}</ul>
+        <p>These describe ${/^what a/i.test(note.title) ? "this kind of spot" : "this cancer"} in general, not this photo.
+          Source: <a href="${note.source[1]}" target="_blank" rel="noopener">${note.source[0]}</a></p>
+      </div>` : ""}
     </div>`;
+  if (note) {
+    $("why").onclick = () => { $("notes").hidden = false; };
+    $("closeNotes").onclick = () => { $("notes").hidden = true; };
+  }
   attachSwipeUp($("card"));
 }
 
@@ -179,7 +210,7 @@ function spot(c) {
 function attachSwipeUp(card) {
   let y0 = null, dy = 0;
   card.addEventListener("pointerdown", (e) => {
-    if (e.target.tagName === "A") return;
+    if (e.target.closest("a, button, .notes")) return;
     y0 = e.clientY; dy = 0;
     card.setPointerCapture(e.pointerId);
     card.classList.remove("anim", "pop");
@@ -200,6 +231,7 @@ function attachSwipeUp(card) {
 }
 
 function next() {
+  if (check) return;  // a check moves on by itself after each swipe
   clearTimeout(flyTimer);
   const card = $("card");
   if (!card || !answered) return show();
@@ -207,6 +239,72 @@ function next() {
   card.classList.add("fly");
   card.style.transform = "translateY(-120vh)";
   flyTimer = setTimeout(round.results.length >= ROUND ? showSummary : show, 250);
+}
+
+// Skill check: 20 fixed photos, no answers until the end, so scores from different days compare fairly.
+function startCheck() {
+  clearTimeout(flyTimer);
+  const set = checks.length % checkSets.length;
+  check = { set, cards: shuffle([...checkSets[set]]), said: [] };
+  answered = false;
+  current = null;
+  renderProgress();
+  stage.innerHTML = `
+    <div class="card pop summary" id="card">
+      <div class="verdict ok"><div class="big">Skill check</div><div class="truth">20 photos · no answers until the end</div></div>
+      <div class="sum-body">
+        <p>Half of these photos are cancer and half are harmless. Swipe each one as usual.</p>
+        <p>Take a check now, then again after about 10 rounds, to see how much you've learned. There are two sets of
+          photos that take turns, and neither appears in normal rounds.</p>
+        ${checks.length ? `<p class="small">Checks so far: ${checks.length}</p>` : ""}
+      </div>
+    </div>`;
+  $("actions").innerHTML = `<button id="cancelCheck">Cancel</button><button id="next">Start →</button>`;
+  $("cancelCheck").onclick = endCheck;
+  $("next").onclick = show;
+}
+
+function answerCheck(saidCheck) {
+  check.said.push(saidCheck);
+  renderProgress();
+  const card = $("card");
+  const dir = saidCheck ? 1 : -1;
+  card.classList.remove("anim");
+  card.classList.add("fly");
+  card.style.transform = `translateX(${dir * 150}vw) rotate(${dir * 30}deg)`;
+  flyTimer = setTimeout(check.said.length >= check.cards.length ? showCheckResult : show, 300);
+}
+
+function showCheckResult() {
+  answered = false;
+  current = null;
+  const res = check.cards.map((c, i) => ({ c, right: check.said[i] === c.malignant }));
+  const caught = res.filter((r) => r.c.malignant && r.right).length;
+  const cleared = res.filter((r) => !r.c.malignant && r.right).length;
+  const nMal = res.filter((r) => r.c.malignant).length;
+  checks.push({ date: new Date().toISOString().slice(0, 10), set: check.set, caught, cleared, total: res.length });
+  saveChecks();
+  const history = checks.slice(-6).map((x, i, a) =>
+    `<li${i === a.length - 1 ? ' class="last"' : ""}>${x.date}: <b>${x.caught + x.cleared} of ${x.total}</b></li>`).join("");
+  const missed = res.filter((r) => !r.right);
+  stage.innerHTML = `
+    <div class="card pop summary" id="card">
+      <div class="verdict ok"><div class="big">${caught + cleared} of ${res.length}</div><div class="truth">Skill check done</div></div>
+      <div class="sum-body">
+        <p><b>Cancers flagged:</b> ${caught} of ${nMal}<br><b>Harmless spots cleared:</b> ${cleared} of ${res.length - nMal}</p>
+        ${checks.length > 1 ? `<p class="small">Your checks:</p><ul class="history">${history}</ul>` : ""}
+        ${missed.length ? `<p class="small">The ones you got wrong:</p><div class="missed">${missed.map((r) => `
+          <figure><img src="${r.c.thumb}" alt="${r.c.dx}"><figcaption class="${r.c.malignant ? "bad" : ""}">${r.c.malignant ? "Cancer" : "Harmless"}: ${r.c.dx}</figcaption></figure>`).join("")}</div>` : ""}
+      </div>
+    </div>`;
+  $("actions").innerHTML = `<button id="next">Back to practice →</button>`;
+  $("next").onclick = endCheck;
+}
+
+function endCheck() {
+  check = null;
+  round = null;
+  show();
 }
 
 // End of round: how it went, how it compares with recent rounds, and a reminder about real-life odds.
@@ -274,6 +372,7 @@ document.addEventListener("keydown", (e) => {
 document.querySelectorAll(".modes button").forEach((b) => {
   b.onclick = () => {
     mode = b.dataset.mode;
+    check = null;
     document.querySelectorAll(".modes button").forEach((x) => x.setAttribute("aria-pressed", x === b));
     round = null;
     renderStats();
@@ -283,13 +382,27 @@ document.querySelectorAll(".modes button").forEach((b) => {
 
 $("reset").onclick = () => {
   score = blankScore();
+  checks = [];
+  saveChecks();
   save();
   renderStats();
 };
 
-fetch("data/deck.json")
-  .then((r) => { if (!r.ok) throw new Error(`deck.json: HTTP ${r.status}`); return r.json(); })
-  .then((d) => { all = d.cards; renderStats(); show(); })
+$("checkBtn").onclick = startCheck;
+
+Promise.all([
+  fetch("data/deck.json").then((r) => { if (!r.ok) throw new Error(`deck.json: HTTP ${r.status}`); return r.json(); }),
+  fetch("data/checks.json").then((r) => (r.ok ? r.json() : { sets: [] })).catch(() => ({ sets: [] })),
+])
+  .then(([d, c]) => {
+    all = d.cards;
+    const byId = new Map(all.map((x) => [x.id, x]));
+    checkSets = c.sets.map((ids) => ids.map((id) => byId.get(id)).filter(Boolean)).filter((set) => set.length);
+    checkSets.flat().forEach((x) => checkIds.add(x.id));
+    if (!checkSets.length) $("checkBtn").hidden = true;
+    renderStats();
+    show();
+  })
   .catch((e) => {
     stage.innerHTML = `<div class="msg">Could not load the image deck (${e.message}).<br>
       Run <code>python3 scripts/build_deck.py</code>, then start the server with

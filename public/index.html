@@ -94,6 +94,25 @@
   .bar span { display: block; background: var(--blue); border: 2px solid var(--ink); }
   .bar.last span { background: var(--fine); }
   .bar em { font-style: normal; font-size: 11px; font-weight: 700; text-align: center; }
+  .check-btn { font: 700 15px "Space Grotesk", sans-serif; padding: 6px 12px; border: 3px solid var(--ink);
+    background: var(--pink); color: var(--ink); box-shadow: var(--shadow-sm); cursor: pointer; }
+  .check-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+  .progress i.done { background: var(--blue); }
+  #cancelCheck { background: var(--surface); }
+  .why { margin-top: 10px; font: 700 14px "Space Grotesk", sans-serif; background: var(--surface); color: var(--ink);
+    border: 3px solid var(--ink); box-shadow: var(--shadow-sm); padding: 5px 10px; cursor: pointer; }
+  .notes { position: absolute; left: 0; right: 0; bottom: 0; max-height: 75%; overflow: auto; background: var(--surface);
+    border-top: 4px solid var(--ink); padding: 14px 16px; z-index: 2; }
+  .notes[hidden] { display: none; }
+  .notes h3 { margin: 0 32px 8px 0; font: 19px/1.15 var(--display); }
+  .notes ul { margin: 0 0 10px; padding-left: 20px; } .notes li { margin-bottom: 6px; }
+  .notes p { margin: 0; font-size: 13px; }
+  .notes .close { position: absolute; top: 10px; right: 12px; font: 18px var(--display); background: var(--yellow);
+    border: 3px solid var(--ink); width: 34px; height: 34px; cursor: pointer; }
+  .history { margin: 0 0 12px; padding-left: 20px; font-size: 15px; } .history .last { font-weight: 700; }
+  .missed { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .missed figure { margin: 0; } .missed img { width: 100%; aspect-ratio: 1; object-fit: cover; border: 3px solid var(--ink); display: block; }
+  .missed figcaption { font-size: 11px; font-weight: 700; margin-top: 3px; } .missed figcaption.bad { color: #b3261e; }
   .msg { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 24px;
     border: 4px solid var(--ink); background: var(--surface); font-weight: 700; }
 </style>
@@ -101,6 +120,7 @@
 <body>
 <header>
   <h1>Worth a Look</h1>
+  <button class="check-btn" id="checkBtn">Skill check</button>
 </header>
 <nav class="modes-row">
   <div class="modes" role="group" aria-label="Image type">
@@ -131,6 +151,7 @@
   · <button id="reset">Reset score</button>
 </footer>
 
+<script src="notes.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
