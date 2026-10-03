@@ -73,10 +73,17 @@
   .shots figcaption { font-weight: 700; margin-top: 12px; font-size: 16px; }
 
   /* modes */
-  .modes { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+  .modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
   .modes h3 { font-size: 26px; margin-bottom: 8px; }
   .modes .box:first-child { background: var(--blue); }
   .modes .box p { margin: 0 0 10px; } .modes .box p:last-child { margin: 0; }
+
+  /* evidence */
+  .evidence { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+  .evidence b { display: block; font: 34px/1.05 var(--display); }
+  .evidence p { margin: 10px 0; font-size: 16px; }
+  .evidence a { font-size: 14px; font-weight: 700; }
+  .evidence .box:nth-child(odd) { background: var(--yellow); }
 
   /* limits */
   .limits { background: var(--red); }
@@ -96,7 +103,7 @@
     .hero, .modes { grid-template-columns: 1fr; }
     .hero { gap: 40px; padding-bottom: 56px; }
     .phone .back { display: none; }
-    .numbers, .steps, .shots { grid-template-columns: 1fr; }
+    .numbers, .steps, .shots, .evidence { grid-template-columns: 1fr; }
     .shots figure { max-width: 320px; }
     section, .numbers { margin-bottom: 60px; }
   }
@@ -129,7 +136,7 @@
 
   <div class="numbers">
     <div class="box"><b>9,159</b>photos, every one confirmed by biopsy</div>
-    <div class="box"><b>2</b>ways to look: a phone camera, or a dermatologist's magnifier</div>
+    <div class="box"><b>3</b>modes: everyday photos, head and neck, and a dermatologist's magnifier</div>
     <div class="box"><b>0</b>accounts, cookies or analytics. Your score stays on your device.</div>
   </div>
 
@@ -164,10 +171,55 @@
       <div class="box"><h3>Naked eye</h3>
         <p>6,159 ordinary close-up photos, like one you'd take with a phone. This is the view you have of your own skin.</p>
         <p>4,781 cancers and 1,378 harmless spots. Each round is dealt half and half.</p></div>
+      <div class="box" style="background:var(--pink)"><h3>Head &amp; neck</h3>
+        <p>The 1,925 everyday photos taken on the face, ears, neck and scalp. Built for barbers, hairdressers and
+          estheticians, who see those places on other people every day.</p>
+        <p>After each cancer it shows a sentence you could say to a client.</p></div>
       <div class="box"><h3>Dermoscope</h3>
         <p>3,000 photos through a dermatoscope, the lit magnifier a skin doctor presses against the skin. Patterns show
           up that you can't see by eye.</p>
         <p>1,500 cancers and 1,500 harmless spots.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title"><span>For barbers, hairdressers and estheticians</span></h2>
+    <div class="box" style="background:var(--blue); margin-bottom:26px">
+      <p style="margin-top:0">People can't easily check their own scalp, the back of their neck or behind their ears.
+        Their barber, hairdresser or esthetician looks at those places up close every few weeks. Melanomas there are
+        often found late, and they are among the more dangerous ones.</p>
+      <p style="margin-bottom:0">Researchers have been asking whether these professionals could help catch them. The
+        studies so far suggest they can, and that a little training goes a long way.</p>
+    </div>
+    <div class="evidence">
+      <div class="box"><b>10%</b>
+        <p>of scalp and neck melanomas treated at Emory's cancer center in Atlanta were first spotted by a hairdresser.
+          Those were found at an early stage more often: 67% against 45%.</p>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/27550617/">Lovasik et al., Annals of Surgical Oncology, 2016</a></div>
+      <div class="box"><b>37%</b>
+        <p>of hair professionals surveyed in Texas checked the scalps of at least half their customers.</p>
+        <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12202860/">Bailey et al., 2011, as cited in the UK study</a></div>
+      <div class="box"><b>19% → 41%</b>
+        <p>of 100 hairdressers felt very confident spotting melanoma after a 5-minute video. Correct answers on the
+          warning signs rose from 59% to 71%.</p>
+        <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5839281/">Black et al., JAMA Dermatology, 2018</a></div>
+      <div class="box"><b>5%</b>
+        <p>of UK hairdressers and barbers surveyed had had any skin cancer training. 92% said they would like some, or
+          might.</p>
+        <a href="https://academic.oup.com/skinhd/article/5/3/203/8117746">Skin Health and Disease, 2025</a></div>
+    </div>
+    <div class="box" style="margin-top:26px">
+      <p style="margin-top:0">Training programs already exist, among them
+        <a href="https://pubmed.ncbi.nlm.nih.gov/37128268/">Stylists Saving Lives</a>, the
+        <a href="https://www.accc-cancer.org/acccbuzz/blog-post-template/accc-buzz/2019/11/14/the-hairstylist-melanoma-challenge">Hairstylist Melanoma Challenge</a>
+        and a <a href="https://www.jcu.edu.au/news/releases/2023/june/hairdressers-to-look-for-dangerous-cancers">James Cook
+        University program</a> in Australia. Researchers have also studied
+        <a href="https://karger.com/drm/article/240/1/59/869535/Examining-the-Role-of-Estheticians-in-Skin-Cancer">estheticians' role</a>.
+        Skinder adds the part those programs can't easily offer: practice on hundreds of real cases with a confirmed answer.</p>
+      <p>The job here is to notice and suggest a doctor, never to diagnose. Head &amp; neck mode shows a sentence for
+        that after every cancer, such as: <i>"I noticed a spot on your neck. Might be worth having a doctor look at it."</i></p>
+      <p style="margin-bottom:0"><b>One gap:</b> the archive has very few scalp photos. Most head and neck photos are of the
+        face, neck and ears.</p>
     </div>
   </section>
 

@@ -49,6 +49,7 @@ def card(r, view):
         "dx": c.get("diagnosis_3") or c.get("diagnosis_2") or c.get("diagnosis_1"),
         "group": c.get("diagnosis_2"),
         "site": c.get("anatom_site_1"),
+        "site_detail": c.get("anatom_site_3") or c.get("anatom_site_2"),
         "age": c.get("age_approx"),
         "sex": c.get("sex"),
         "license": r.get("copyright_license"),

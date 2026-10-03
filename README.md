@@ -17,6 +17,7 @@ Skinder shows you photos of moles and skin growths that were later checked by bi
 - **9,159 photos from the [ISIC Archive](https://www.isic-archive.com)**, every one confirmed by biopsy. Photos the lab couldn't call either way are left out.
 - **Naked eye mode:** 6,159 ordinary close-up photos, the view you have of your own skin.
 - **Dermoscope mode:** 3,000 photos through the lit magnifier a skin doctor uses.
+- **Head & neck mode:** the 1,925 everyday photos of the face, ears, neck and scalp, for barbers, hairdressers and estheticians. After each cancer it shows a sentence to say to a client. Research on why this matters is on the project page.
 - Each round is half cancer and half harmless. A photo you get wrong comes back once, about 30 cards later.
 - No accounts and no tracking. Your score is kept in your browser.
 
@@ -26,6 +27,7 @@ Skinder shows you photos of moles and skin growths that were later checked by bi
 - The harmless photos were suspicious enough to biopsy, so they are harder than everyday moles.
 - Most naked-eye cancers are basal cell carcinoma. Melanoma practice is stronger in dermoscope mode.
 - Most photos show lighter skin.
+- The archive has very few scalp photos.
 
 ## Run it
 

@@ -6,8 +6,14 @@ const $ = (id) => document.getElementById(id);
 const stage = $("stage");
 
 let all = [];
-let view = "clinical";
-let queue = [];            // upcoming cards for the current view
+// Which photos each mode deals from.
+const MODES = {
+  clinical: (c) => c.view === "clinical",
+  dermoscopic: (c) => c.view === "dermoscopic",
+  headneck: (c) => c.view === "clinical" && c.site === "Head and neck",
+};
+let mode = "clinical";
+let queue = [];            // upcoming cards for the current mode
 let current = null;
 let answered = false;
 let retried = new Set();   // ids already given their one second look
@@ -15,12 +21,12 @@ let flyTimer = null;      // pending switch to the answer card
 let score = load();
 
 function load() {
-  const empty = { clinical: blank(), dermoscopic: blank() };
+  const s = Object.fromEntries(Object.keys(MODES).map((m) => [m, blank()]));
   try {
-    const s = JSON.parse(localStorage.getItem(STORE_KEY));
-    if (s && s.clinical && s.dermoscopic) { return s; }
+    const saved = JSON.parse(localStorage.getItem(STORE_KEY)) || {};
+    for (const m in s) if (saved[m]) s[m] = saved[m];
   } catch {}
-  return empty;
+  return s;
 }
 function blank() { return { malignant: 0, caught: 0, benign: 0, cleared: 0 }; }
 function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(score)); } catch {} }
@@ -35,7 +41,7 @@ function shuffle(a) {
 
 // Half cancers, half harmless, regardless of how lopsided the archive is.
 function buildQueue() {
-  const pool = all.filter((c) => c.view === view);
+  const pool = all.filter(MODES[mode]);
   const mal = shuffle(pool.filter((c) => c.malignant));
   const ben = shuffle(pool.filter((c) => !c.malignant));
   const n = Math.min(mal.length, ben.length);
@@ -43,7 +49,7 @@ function buildQueue() {
 }
 
 function renderStats() {
-  const s = score[view];
+  const s = score[mode];
   $("caught").textContent = s.malignant ? `${s.caught} of ${s.malignant}` : "–";
   $("cleared").textContent = s.benign ? `${s.cleared} of ${s.benign}` : "–";
 }
@@ -56,7 +62,8 @@ function show() {
   current = queue.shift();
   answered = false;
   queue.slice(0, 3).forEach(preload);
-  const site = current.site ? current.site.toLowerCase() : "site unknown";
+  const where = current.site_detail || current.site;
+  const site = where ? where.toLowerCase() : "site unknown";
   const age = current.age ? `age ${current.age}` : "age unknown";
   stage.innerHTML = `
     <div class="card pop" id="card">
@@ -76,7 +83,7 @@ function show() {
 function answer(saidCheck) {
   if (answered || !current) return;
   answered = true;
-  const s = score[view];
+  const s = score[mode];
   const right = saidCheck === current.malignant;
   if (current.malignant) { s.malignant++; if (right) s.caught++; }
   else { s.benign++; if (right) s.cleared++; }
@@ -116,6 +123,8 @@ function showResult(right, retry) {
         ${retry ? `<div class="again">You'll see this one again in a while.</div>` : ""}
       </div>
       <img src="${current.img}" alt="Skin lesion photo ${current.id}">
+      ${mode === "headneck" && current.malignant ? `<div class="say"><b>You could say:</b> “I noticed a spot on your
+        ${spot(current)}. Might be worth having a doctor look at it.”</div>` : ""}
       <div class="meta credit"><span>${current.id} · ${current.attribution || "ISIC Archive"} · ${current.license}</span>
         <a href="https://api.isic-archive.com/images/${current.id}/" target="_blank" rel="noopener">view on ISIC</a></div>
       <div class="hint">↑ swipe up for next</div>
@@ -124,6 +133,12 @@ function showResult(right, retry) {
 }
 
 // On the answer card, swipe up (or tap) to fly it off the top and bring in the next photo.
+// Plain word for where the spot is, for the client script.
+function spot(c) {
+  const d = (c.site_detail || "").toLowerCase();
+  return ["face", "ear", "scalp", "neck", "lip", "nose"].find((w) => d.includes(w)) || "skin";
+}
+
 function attachSwipeUp(card) {
   let y0 = null, dy = 0;
   card.addEventListener("pointerdown", (e) => {
@@ -194,7 +209,7 @@ document.addEventListener("keydown", (e) => {
 
 document.querySelectorAll(".modes button").forEach((b) => {
   b.onclick = () => {
-    view = b.dataset.view;
+    mode = b.dataset.mode;
     document.querySelectorAll(".modes button").forEach((x) => x.setAttribute("aria-pressed", x === b));
     buildQueue();
     renderStats();
