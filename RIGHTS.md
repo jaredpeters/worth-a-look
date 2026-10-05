@@ -46,7 +46,7 @@ The screenshots in `site/img/` show the Worth a Look interface and include photo
 
 ## 6. The fonts
 
-Worth a Look uses [Archivo Black](https://github.com/Omnibus-Type/ArchivoBlack) and [Space Grotesk](https://github.com/floriankarsten/space-grotesk). Both are under the [SIL Open Font License 1.1](https://openfontlicense.org), and their license files are in `public/fonts/`. They are bundled with the app, so loading them sends no request to Google or anyone else.
+Worth a Look uses [Archivo Black](https://github.com/Omnibus-Type/ArchivoBlack) and [Space Grotesk](https://github.com/floriankarsten/space-grotesk) in the default Bold style, and [Fraunces](https://github.com/undercasetype/Fraunces) and [DM Sans](https://github.com/googlefonts/dm-fonts) in the Soft style. All four are under the [SIL Open Font License 1.1](https://openfontlicense.org), and their license files are in `public/fonts/`. They are bundled with the app, so loading them sends no request to Google or anyone else.
 
 ## 7. Your privacy
 

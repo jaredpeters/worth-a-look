@@ -3,3 +3,8 @@
   src: url(archivo-black-latin.woff2) format("woff2"); }
 @font-face { font-family: "Space Grotesk"; font-weight: 300 700; font-display: swap;
   src: url(space-grotesk-latin.woff2) format("woff2"); }
+/* Used by the Soft skin. */
+@font-face { font-family: "Fraunces"; font-weight: 600 900; font-display: swap;
+  src: url(fraunces-latin.woff2) format("woff2"); }
+@font-face { font-family: "DM Sans"; font-weight: 400 800; font-display: swap;
+  src: url(dm-sans-latin.woff2) format("woff2"); }

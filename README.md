@@ -25,6 +25,7 @@ People miss many skin cancers on their own, especially on the scalp, head and ne
 - Rounds of 20 photos, 6 of them cancer, ending with your score and a chart of your recent rounds. A photo you get wrong comes back once, two rounds later.
 - **Skill check:** 20 fixed photos, half cancer, with no answers until the end. Take it again after some practice to see how much you've improved. Two sets take turns, and neither appears in normal rounds.
 - **What it often looks like:** for the five most common diagnoses, the answer card can show a short description of what that diagnosis usually looks like, with a link to the NHS or American Academy of Dermatology page it's based on.
+- **Two styles:** Bold, and a rounder Soft style. Switch at the bottom of the game.
 - No accounts and no tracking. Your score is kept in your browser.
 
 ## Limits

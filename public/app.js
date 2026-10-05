@@ -390,6 +390,19 @@ $("reset").onclick = () => {
 
 $("checkBtn").onclick = startCheck;
 
+// Two looks for the same game: Bold (the default) and Soft. The choice is remembered on this device.
+const SKINS = { bold: { label: "Bold", color: "#ffd23f" }, soft: { label: "Soft", color: "#f3eee6" } };
+function applySkin(name) {
+  if (!SKINS[name]) name = "bold";
+  if (name === "bold") delete document.documentElement.dataset.skin;
+  else document.documentElement.dataset.skin = name;
+  document.querySelector('meta[name="theme-color"]').content = SKINS[name].color;
+  $("skin").textContent = `Style: ${SKINS[name].label}`;
+  try { localStorage.setItem("skinder.skin", name); } catch {}
+}
+applySkin(document.documentElement.dataset.skin || "bold");
+$("skin").onclick = () => applySkin(document.documentElement.dataset.skin === "soft" ? "bold" : "soft");
+
 Promise.all([
   fetch("data/deck.json").then((r) => { if (!r.ok) throw new Error(`deck.json: HTTP ${r.status}`); return r.json(); }),
   fetch("data/checks.json").then((r) => (r.ok ? r.json() : { sets: [] })).catch(() => ({ sets: [] })),

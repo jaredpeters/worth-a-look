@@ -14,8 +14,13 @@
 <meta name="apple-mobile-web-app-title" content="Worth a Look">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="skins/soft.css">
+<script>
+  // Apply the saved skin before the page draws, so it never flashes the other one.
+  try { const k = localStorage.getItem("skinder.skin"); if (k) document.documentElement.dataset.skin = k; } catch {}
+</script>
 <style>
-  /* Neobrutalism: thick ink borders, hard offset shadows, flat loud colors. */
+  /* Bold skin (default): thick ink borders, hard offset shadows, flat loud colors. The Soft skin is in skins/soft.css. */
   :root {
     --bg: #fff4d6; --surface: #fff; --ink: #111; --muted: #3d3a33;
     --yellow: #ffd23f; --pink: #ff8fc7; --blue: #8ec5ff;
@@ -149,6 +154,7 @@
   Images and diagnoses from the <a href="https://www.isic-archive.com" target="_blank" rel="noopener">ISIC Archive</a>.
   · <a href="https://github.com/jaredpeters/worth-a-look/blob/main/RIGHTS.md" target="_blank" rel="noopener">Rights</a>
   · <button id="reset">Reset score</button>
+  · <button id="skin">Style: Bold</button>
 </footer>
 
 <script src="notes.js"></script>
