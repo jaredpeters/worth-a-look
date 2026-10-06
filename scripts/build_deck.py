@@ -53,6 +53,7 @@ def card(r, view):
         "group": c.get("diagnosis_2"),
         "site": c.get("anatom_site_1"),
         "site_detail": c.get("anatom_site_3") or c.get("anatom_site_2"),
+        "skin": c.get("fitzpatrick_skin_type"),  # Fitzpatrick type I-VI when the archive records it
         "age": c.get("age_approx"),
         "sex": c.get("sex"),
         "confirm": "biopsy" if c.get("diagnosis_confirm_type") == "histopathology" else "experts",

@@ -33,7 +33,7 @@ People miss many skin cancers on their own, especially on the scalp, head and ne
 - 6 in every 20 photos are cancer. In real life almost every spot is harmless, and the round summary says so.
 - Most harmless photos were suspicious enough to biopsy, so they are harder than everyday moles.
 - Most naked-eye cancers are basal cell carcinoma. Melanoma practice is stronger in dermoscope mode.
-- Most photos show lighter skin.
+- **Known gap: darker skin.** Only 64 of the 9,565 photos are recorded as darker skin (Fitzpatrick IV to VI): 34 cancers and 30 harmless spots. The game deals them about 1 time in 5 so players see them at all. Some collections that would help exist but are locked for research use; see the project page and `tickets/001-stanford-ddi-permission.md`.
 - The archive has very few scalp photos.
 - The diagnosis notes have not yet been reviewed by a dermatologist.
 

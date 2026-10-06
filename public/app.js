@@ -56,12 +56,29 @@ function shuffle(a) {
   return a;
 }
 
-// Next unseen card of one kind; reshuffles that kind once every card has been dealt.
-function draw(malignant) {
+// Darker skin (Fitzpatrick IV-VI) is under 1% of the archive's photos. Dealing it at this share
+// instead means players actually see it; those photos repeat sooner as a result.
+const DARK_SHARE = 0.2;
+const isDark = (c) => ["IV", "V", "VI"].includes(c.skin);
+
+// Next unseen card of one kind. Darker-skin and other photos are dealt from separate shuffled piles,
+// each reshuffled once every card in it has been dealt.
+function draw(malignant, taken = new Set()) {
   const p = (pools[mode] ||= {});
-  const key = malignant ? "mal" : "ben";
-  if (!p[key] || !p[key].length) p[key] = shuffle(all.filter((c) => MODES[mode](c) && c.malignant === malignant && !checkIds.has(c.id)));
-  return p[key].pop();
+  const pile = (dark) => {
+    const key = (malignant ? "mal" : "ben") + (dark ? "-dark" : "");
+    if (!p[key] || !p[key].length) {
+      p[key] = shuffle(all.filter((c) => MODES[mode](c) && c.malignant === malignant && !checkIds.has(c.id) && isDark(c) === dark));
+    }
+    return p[key];
+  };
+  // A small pile can reshuffle mid-round; skip anything already in this round.
+  for (let tries = 0; tries < 20; tries++) {
+    const from = Math.random() < DARK_SHARE && pile(true).length ? pile(true) : pile(false);
+    const c = from.pop();
+    if (c && !taken.has(c.id)) return c;
+  }
+  return pile(false).pop();
 }
 
 // A round is 6 cancers and 14 harmless spots. Missed cards that are due take a slot of their own kind.
@@ -72,8 +89,10 @@ function buildRound() {
   const dueMal = due.filter((r) => r.card.malignant).map((r) => r.card).slice(0, CANCERS_PER_ROUND);
   const dueBen = due.filter((r) => !r.card.malignant).map((r) => r.card).slice(0, ROUND - CANCERS_PER_ROUND);
   const cards = [...dueMal, ...dueBen];
-  for (let i = dueMal.length; i < CANCERS_PER_ROUND; i++) cards.push(draw(true));
-  for (let i = dueBen.length; i < ROUND - CANCERS_PER_ROUND; i++) cards.push(draw(false));
+  const taken = new Set(cards.map((c) => c.id));
+  const add = (c) => { cards.push(c); taken.add(c.id); };
+  for (let i = dueMal.length; i < CANCERS_PER_ROUND; i++) add(draw(true, taken));
+  for (let i = dueBen.length; i < ROUND - CANCERS_PER_ROUND; i++) add(draw(false, taken));
   queue = shuffle(cards);
   round = { malignant: 0, caught: 0, benign: 0, cleared: 0, results: [] };
   renderProgress();
