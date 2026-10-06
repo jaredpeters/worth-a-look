@@ -5,7 +5,7 @@
 
 ## Why
 
-Darker skin is the biggest gap in Worth a Look: 64 of 9,565 photos (see the "Known gap" section of the project page). Stanford's [Diverse Dermatology Images](https://ddi-dataset.github.io/) (DDI) has 656 biopsy-confirmed photos across all skin tones, built to compare light and dark skin. Its research use agreement forbids publishing or reproducing the images "without written permission", so the only route is to ask.
+Darker skin is the biggest gap in Worth a Look: 94 of 9,595 photos, and only 37 of them cancers (see the "Known gap" section of the project page). Stanford's [Diverse Dermatology Images](https://ddi-dataset.github.io/) (DDI) has 656 biopsy-confirmed photos across all skin tones, built to compare light and dark skin. Its research use agreement forbids publishing or reproducing the images "without written permission", so the only route is to ask.
 
 The DDI paper itself makes the case: dermatologists, not just AI models, did worse on darker skin ([Daneshjou et al., Science Advances, 2022](https://pubmed.ncbi.nlm.nih.gov/35960806/)). Worth a Look trains the people who see skin every day.
 

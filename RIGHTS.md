@@ -20,8 +20,8 @@ Each contributor chose one of three Creative Commons licenses for their photos. 
 
 | License | What it allows | Photos in Worth a Look |
 |---|---|---|
-| [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | Any use, no credit needed | 3,051 |
-| [CC BY](https://creativecommons.org/share-your-work/cclicenses/) | Any use, including commercial, with credit | 1,597 |
+| [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | Any use, no credit needed | 3,073 |
+| [CC BY](https://creativecommons.org/share-your-work/cclicenses/) | Any use, including commercial, with credit | 1,605 |
 | [CC BY-NC](https://creativecommons.org/share-your-work/cclicenses/) | Non-commercial use only, with credit | 4,917 |
 
 Every answer card credits its photo the way the ISIC Archive asks: the photo's ISIC ID, the contributor's credit line, the license, and a link to the photo's page in the archive. Worth a Look shows the photos unchanged. They are scaled to fit the card, never cropped or edited.

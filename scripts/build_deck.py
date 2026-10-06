@@ -81,6 +81,16 @@ def main():
         print("dermoscopic", dx)
         cards += [card(r, "dermoscopic") for r in fetch(q, args.derm_per_class)]
 
+    # The dermoscope sample above is capped, which happened to leave out the few darker-skin
+    # photos (Fitzpatrick IV-VI). Add every biopsy-confirmed one; see docs/darker-skin-gap.md.
+    seen = {c["id"] for c in cards}
+    dark = '(fitzpatrick_skin_type:"IV" OR fitzpatrick_skin_type:"V" OR fitzpatrick_skin_type:"VI")'
+    print("dermoscopic, darker skin")
+    for r in fetch(f'{base} AND image_type:"dermoscopic" AND {dark}'):
+        if r["metadata"].get("clinical", {}).get("diagnosis_1") in ("Benign", "Malignant") and r["isic_id"] not in seen:
+            cards.append(card(r, "dermoscopic"))
+            seen.add(r["isic_id"])
+
     OUT.write_text(json.dumps({"built": time.strftime("%Y-%m-%d"), "cards": cards}, separators=(",", ":")))
     for view in ("clinical", "dermoscopic"):
         m = sum(1 for c in cards if c["view"] == view and c["malignant"])

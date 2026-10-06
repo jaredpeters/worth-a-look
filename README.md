@@ -18,9 +18,9 @@ People miss many skin cancers on their own, especially on the scalp, head and ne
 
 ## What's in it
 
-- **9,565 photos from the [ISIC Archive](https://www.isic-archive.com)** with a known diagnosis. Every cancer was confirmed by biopsy, and so was every harmless spot except 406 everyday photos that dermatologists agreed were harmless from the photo. Photos with no clear answer are left out.
+- **9,595 photos from the [ISIC Archive](https://www.isic-archive.com)** with a known diagnosis. Every cancer was confirmed by biopsy, and so was every harmless spot except 406 everyday photos that dermatologists agreed were harmless from the photo. Photos with no clear answer are left out.
 - **Naked eye mode:** 6,565 ordinary close-up photos, the view you have of your own skin.
-- **Dermoscope mode:** 3,000 photos through the lit magnifier a skin doctor uses.
+- **Dermoscope mode:** 3,030 photos through the lit magnifier a skin doctor uses.
 - **Head & neck mode:** the 2,085 everyday photos of the face, ears, neck and scalp, for barbers, hairdressers and estheticians. After each cancer it shows a sentence to say to a client. Research on why this matters is on the project page.
 - Rounds of 20 photos, 6 of them cancer, ending with your score and a chart of your recent rounds. A photo you get wrong comes back once, two rounds later.
 - **Skill check:** 20 fixed photos, half cancer, with no answers until the end. Take it again after some practice to see how much you've improved. Two sets take turns, and neither appears in normal rounds.
@@ -33,7 +33,7 @@ People miss many skin cancers on their own, especially on the scalp, head and ne
 - 6 in every 20 photos are cancer. In real life almost every spot is harmless, and the round summary says so.
 - Most harmless photos were suspicious enough to biopsy, so they are harder than everyday moles.
 - Most naked-eye cancers are basal cell carcinoma. Melanoma practice is stronger in dermoscope mode.
-- **Known gap: darker skin.** Only 64 of the 9,565 photos are recorded as darker skin (Fitzpatrick IV to VI): 34 cancers and 30 harmless spots. The game deals them about 1 time in 5 so players see them at all. Some collections that would help exist but are locked for research use; see the project page and `tickets/001-stanford-ddi-permission.md`.
+- **Known gap: darker skin.** Only 94 of the 9,595 photos are recorded as darker skin (Fitzpatrick IV to VI): 37 cancers, which is every one in the archive, and 57 harmless spots. The archive has about 2,400 more darker-skin harmless photos, but almost all were labeled by one clinician without a biopsy, so they're left out. [docs/darker-skin-gap.md](docs/darker-skin-gap.md) explains the numbers and the choice. The game deals them about 1 time in 5 so players see them at all. Some collections that would help exist but are locked for research use; see the project page and `tickets/001-stanford-ddi-permission.md`.
 - The archive has very few scalp photos.
 - The diagnosis notes have not yet been reviewed by a dermatologist.
 
