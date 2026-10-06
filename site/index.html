@@ -20,7 +20,10 @@
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) { --bg: #1d1b26; }
-    :root:not([data-theme="light"]) .on-bg { color: #f3efff; }
+    :root:not([data-theme="light"]) .on-bg,
+    :root:not([data-theme="light"]) .why-h,
+    :root:not([data-theme="light"]) .shots figcaption { color: #f3efff; }
+    :root:not([data-theme="light"]) .hero h1 mark { color: var(--ink); }
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--ink); font: 500 18px/1.55 "Space Grotesk", system-ui, sans-serif; }

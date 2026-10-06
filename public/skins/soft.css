@@ -25,7 +25,7 @@
 
 /* Segmented control: one rounded track, the chosen mode raised inside it. */
 [data-skin="soft"] .modes { border: 0; box-shadow: none; background: #e6dfd3; border-radius: 16px; padding: 4px; gap: 4px; }
-[data-skin="soft"] .modes button { border: 0; border-radius: 12px; font: 700 14px var(--body); color: var(--muted); padding: 8px 6px; }
+[data-skin="soft"] .modes button { border: 0; border-radius: 12px; font: 700 14px var(--body); color: #5b6670; padding: 8px 6px; }
 [data-skin="soft"] .modes button + button { border-left: 0; }
 [data-skin="soft"] .modes button[aria-pressed="true"] { background: var(--surface); color: var(--ink);
   box-shadow: 0 2px 0 var(--lip-plain), 0 2px 8px rgb(29 43 51 / .10); }

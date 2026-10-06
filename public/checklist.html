@@ -21,6 +21,11 @@
     --display: "Archivo Black", system-ui, sans-serif; --body: "Space Grotesk", system-ui, sans-serif;
     --edge: 3px solid var(--ink); --hard: 5px 5px 0 var(--ink); --round: 0;
   }
+  /* The checklist stays light in dark mode, so it reads the same at the chair whatever the phone is set to. */
+  @media (prefers-color-scheme: dark) {
+    :root[data-skin="soft"]:not([data-theme="light"]) { --bg: #f3eee6; --muted: #5b6670; }
+    :root[data-skin="soft"]:not([data-theme="light"]) h1 { color: var(--ink); }
+  }
   :root[data-skin="soft"] { --edge: 0; --hard: 0 1px 2px rgb(29 43 51 / .06), 0 8px 24px rgb(29 43 51 / .10); --round: 20px; }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--ink); font: 500 17px/1.45 var(--body);
