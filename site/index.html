@@ -89,6 +89,13 @@
   .evidence a { font-size: 14px; font-weight: 700; }
   .evidence .box:nth-child(odd) { background: var(--yellow); }
 
+  .missing { margin-top: 40px; background: var(--ink); color: #fff4d6; border: 3px solid var(--ink);
+    box-shadow: 10px 10px 0 var(--pink); padding: 34px 32px; }
+  .missing h3 { font: 20px var(--display); text-transform: uppercase; letter-spacing: .04em; color: var(--yellow); margin: 0 0 10px; }
+  .missing .lead-big { font: clamp(36px, 6vw, 64px)/1.02 var(--display); margin: 0 0 22px; color: #fff; }
+  .missing p { font-size: 21px; max-width: 40em; margin: 0 0 16px; }
+  .missing .btn { margin-top: 10px; color: var(--ink); box-shadow: 6px 6px 0 var(--yellow); }
+
   /* limits */
   .limits { background: var(--red); }
   .limits ol { margin: 0; padding-left: 24px; }
@@ -109,6 +116,8 @@
     .phone .back { display: none; }
     .numbers, .steps, .shots, .evidence { grid-template-columns: 1fr; }
     .shots figure { max-width: 320px; }
+    .missing { padding: 26px 20px; box-shadow: 6px 6px 0 var(--pink); }
+    .missing p { font-size: 18px; }
     section, .numbers { margin-bottom: 60px; }
   }
 </style>
@@ -198,6 +207,16 @@
         <a href="https://jamanetwork.com/journals/jamadermatology/fullarticle/2681554">Lacy et al., JAMA Dermatology, 2018</a></div>
     </div>
 
+    <div class="missing">
+      <h3>What was missing</h3>
+      <p class="lead-big">A free place to practice.</p>
+      <p>Courses and videos teach the warning signs. We couldn't find anywhere free and open to see those signs on
+        hundreds of real spots, with a known answer every time, a few minutes at a time between clients.</p>
+      <p>Seeing many real cases quickly is what helped the medical students in the swipe-app study above. Worth a Look
+        brings that kind of practice to the people who look at other people's skin every day.</p>
+      <a class="btn play" href="play/">Try it →</a>
+    </div>
+
     <div class="box" style="margin-top:26px">
       <p style="margin-top:0">A review of 16 studies reached the same conclusion: these professionals are open to looking at
         the skin they already work on, and willing to send clients to a doctor when something looks wrong
@@ -206,9 +225,6 @@
         <a href="https://www.accc-cancer.org/acccbuzz/blog-post-template/accc-buzz/2019/11/14/the-hairstylist-melanoma-challenge">Hairstylist Melanoma Challenge</a>
         and a <a href="https://www.jcu.edu.au/news/releases/2023/june/hairdressers-to-look-for-dangerous-cancers">James Cook
         University program</a> in Australia.</p>
-      <p><b>What was missing</b> is a free place to practice on hundreds of real cases with a known answer, a few minutes
-        at a time, between clients. Courses teach the warning signs. Worth a Look lets you see them over and over until
-        you start to recognize them.</p>
       <p>The job is to notice and suggest a doctor, never to diagnose. Head &amp; neck mode shows a sentence for that after
         every cancer, such as: <i>"I noticed a spot on your neck. Might be worth having a doctor look at it."</i></p>
       <p style="margin-bottom:0"><b>One gap:</b> the archive has very few scalp photos. Most head and neck photos are of the
