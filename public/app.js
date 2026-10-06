@@ -28,6 +28,7 @@ let answered = false;
 let flyTimer = null;       // pending switch to the answer card
 let score = load();
 let checkSets = [];        // the two fixed skill checks, as lists of cards
+let checkVersion = 1;      // bumped whenever the sets change, so old and new scores aren't compared
 let checkIds = new Set();  // their photos never appear in normal rounds
 let check = null;          // the skill check in progress: { set, cards, said: [] }
 let checks = loadChecks(); // finished skill checks
@@ -263,7 +264,8 @@ function next() {
 // Skill check: 20 fixed photos, no answers until the end, so scores from different days compare fairly.
 function startCheck() {
   clearTimeout(flyTimer);
-  const set = checks.length % checkSets.length;
+  const mine = checks.filter((x) => (x.version || 1) === checkVersion);
+  const set = mine.length % checkSets.length;
   check = { set, cards: shuffle([...checkSets[set]]), said: [] };
   answered = false;
   current = null;
@@ -272,10 +274,10 @@ function startCheck() {
     <div class="card pop summary" id="card">
       <div class="verdict ok"><div class="big">Skill check</div><div class="truth">20 photos · no answers until the end</div></div>
       <div class="sum-body">
-        <p>Half of these photos are cancer and half are harmless. Swipe each one as usual.</p>
+        <p>Half of these photos are cancer and half are harmless, and 4 of the 20 show darker skin. Swipe each one as usual.</p>
         <p>Take a check now, then again after about 10 rounds, to see how much you've learned. There are two sets of
           photos that take turns, and neither appears in normal rounds.</p>
-        ${checks.length ? `<p class="small">Checks so far: ${checks.length}</p>` : ""}
+        ${mine.length ? `<p class="small">Checks so far: ${mine.length}</p>` : ""}
       </div>
     </div>`;
   $("actions").innerHTML = `<button id="cancelCheck">Cancel</button><button id="next">Start →</button>`;
@@ -301,17 +303,22 @@ function showCheckResult() {
   const caught = res.filter((r) => r.c.malignant && r.right).length;
   const cleared = res.filter((r) => !r.c.malignant && r.right).length;
   const nMal = res.filter((r) => r.c.malignant).length;
-  checks.push({ date: new Date().toISOString().slice(0, 10), set: check.set, caught, cleared, total: res.length });
+  const dark = res.filter((r) => isDark(r.c));
+  const darkRight = dark.filter((r) => r.right).length;
+  checks.push({ date: new Date().toISOString().slice(0, 10), version: checkVersion, set: check.set, caught, cleared,
+    total: res.length, darkRight, darkTotal: dark.length });
   saveChecks();
-  const history = checks.slice(-6).map((x, i, a) =>
+  const mine = checks.filter((x) => (x.version || 1) === checkVersion);
+  const history = mine.slice(-6).map((x, i, a) =>
     `<li${i === a.length - 1 ? ' class="last"' : ""}>${x.date}: <b>${x.caught + x.cleared} of ${x.total}</b></li>`).join("");
   const missed = res.filter((r) => !r.right);
   stage.innerHTML = `
     <div class="card pop summary" id="card">
       <div class="verdict ok"><div class="big">${caught + cleared} of ${res.length}</div><div class="truth">Skill check done</div></div>
       <div class="sum-body">
-        <p><b>Cancers flagged:</b> ${caught} of ${nMal}<br><b>Harmless spots cleared:</b> ${cleared} of ${res.length - nMal}</p>
-        ${checks.length > 1 ? `<p class="small">Your checks:</p><ul class="history">${history}</ul>` : ""}
+        <p><b>Cancers flagged:</b> ${caught} of ${nMal}<br><b>Harmless spots cleared:</b> ${cleared} of ${res.length - nMal}
+          ${dark.length ? `<br><b>On darker skin:</b> ${darkRight} of ${dark.length} right` : ""}</p>
+        ${mine.length > 1 ? `<p class="small">Your checks:</p><ul class="history">${history}</ul>` : ""}
         ${missed.length ? `<p class="small">The ones you got wrong:</p><div class="missed">${missed.map((r) => `
           <figure><img src="${r.c.thumb}" alt="${r.c.dx}"><figcaption class="${r.c.malignant ? "bad" : ""}">${r.c.malignant ? "Cancer" : "Harmless"}: ${r.c.dx}</figcaption></figure>`).join("")}</div>` : ""}
       </div>
@@ -429,6 +436,7 @@ Promise.all([
   .then(([d, c]) => {
     all = d.cards;
     const byId = new Map(all.map((x) => [x.id, x]));
+    checkVersion = c.version || 1;
     checkSets = c.sets.map((ids) => ids.map((id) => byId.get(id)).filter(Boolean)).filter((set) => set.length);
     checkSets.flat().forEach((x) => checkIds.add(x.id));
     if (!checkSets.length) $("checkBtn").hidden = true;

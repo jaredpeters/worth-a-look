@@ -32,7 +32,9 @@ Mixing these photos in would also create a double standard: the darker-skin harm
 
 ## What the game does instead
 
-The 94 darker-skin photos it has are dealt about 1 card in 5, instead of fewer than 1 in 100. Players see darker skin regularly, at the cost of those few photos repeating sooner.
+The darker-skin photos it has are dealt about 1 card in 5, instead of fewer than 1 in 100. Players see darker skin regularly, at the cost of those few photos repeating sooner.
+
+Each of the two skill-check sets includes 4 darker-skin photos (2 cancers, 2 harmless), scored separately so players can see how they do on darker skin. Those 8 photos are kept out of normal rounds, which leaves 30 darker-skin cancers and 26 harmless spots for everyday-photo practice.
 
 ## Options, if this is revisited
 
