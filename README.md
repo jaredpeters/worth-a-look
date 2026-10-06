@@ -25,6 +25,7 @@ People miss many skin cancers on their own, especially on the scalp, head and ne
 - Rounds of 20 photos, 6 of them cancer, ending with your score and a chart of your recent rounds. A photo you get wrong comes back once, two rounds later.
 - **Skill check:** 20 fixed photos, half cancer and 4 on darker skin, with no answers until the end. Darker skin gets its own score. Take it again after some practice to see how much you've improved. Two sets take turns, and neither appears in normal rounds.
 - **What it often looks like:** for the five most common diagnoses, the answer card can show a short description of what that diagnosis usually looks like, with a link to the NHS or American Academy of Dermatology page it's based on.
+- **Spot checklist:** one page to open at the chair, listing when to suggest a doctor (new or changing, the ABCD signs, sores that won't heal, and what to check on darker skin). Every line links to its source. Open it from the game, or go straight to `checklist.html`.
 - **Two styles:** Bold, and a rounder Soft style. Switch at the bottom of the game.
 - No accounts and no tracking. Your score is kept in your browser.
 
@@ -35,7 +36,7 @@ People miss many skin cancers on their own, especially on the scalp, head and ne
 - Most naked-eye cancers are basal cell carcinoma. Melanoma practice is stronger in dermoscope mode.
 - **Known gap: darker skin.** Only 94 of the 9,595 photos are recorded as darker skin (Fitzpatrick IV to VI): 37 cancers, which is every one in the archive, and 57 harmless spots. The archive has about 2,400 more darker-skin harmless photos, but almost all were labeled by one clinician without a biopsy, so they're left out. [docs/darker-skin-gap.md](docs/darker-skin-gap.md) explains the numbers and the choice. The game deals them about 1 time in 5 so players see them at all. Some collections that would help exist but are locked for research use; see the project page and `tickets/001-stanford-ddi-permission.md`.
 - The archive has very few scalp photos.
-- The diagnosis notes have not yet been reviewed by a dermatologist.
+- The diagnosis notes and the spot checklist have not yet been reviewed by a dermatologist.
 
 ## Run it
 

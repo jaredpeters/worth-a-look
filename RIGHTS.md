@@ -36,9 +36,9 @@ If you fork Worth a Look and want to use it commercially, you must first remove 
 
 `public/data/deck.json` lists each photo's ID, web address, diagnosis and how it was confirmed, the patient's approximate age, sex and body site, and the license and credit line. This information comes from the ISIC Archive database, which the archive releases under [CC0](https://creativecommons.org/publicdomain/zero/1.0/) ([ISIC terms](https://www.isic-archive.com/terms-conditions)). The photos themselves stay under their own licenses.
 
-## 4. The diagnosis notes
+## 4. The diagnosis notes and spot checklist
 
-The "what it often looks like" notes in `public/notes.js` are written in our own words, based on public pages from the [NHS](https://www.nhs.uk) and the [American Academy of Dermatology](https://www.aad.org/public). Each note links to the page it's based on. Those pages belong to their publishers. The notes describe each diagnosis in general, not the photo on screen, and they are not medical advice. They have not yet been reviewed by a dermatologist.
+The "what it often looks like" notes in `public/notes.js` and the spot checklist in `public/checklist.html` are written in our own words, based on public pages from the [NHS](https://www.nhs.uk), the [American Academy of Dermatology](https://www.aad.org/public), [DermNet](https://dermnetnz.org) and [Cancer Council WA](https://cancerwa.asn.au), and on Grob and Bonerandi's 1998 paper on the "ugly duckling" sign. Each line links to its source. Those pages belong to their publishers. The notes describe each diagnosis in general, not the photo on screen. The checklist is for noticing spots and suggesting a doctor. Neither is medical advice, and neither has been reviewed by a dermatologist yet.
 
 ## 5. The screenshots
 

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Spot Checklist</title>
+<meta name="description" content="A quick checklist for noticing a skin spot that's worth showing a doctor, with a source for every line.">
+<link rel="icon" type="image/png" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<meta name="theme-color" content="#ffd23f">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="skins/soft.css">
+<script>
+  try { const k = localStorage.getItem("skinder.skin"); if (k) document.documentElement.dataset.skin = k; } catch {}
+</script>
+<style>
+  /* Uses the game's color and font tokens, so it follows whichever skin is chosen. */
+  :root {
+    --bg: #fff4d6; --surface: #fff; --ink: #111; --muted: #3d3a33;
+    --yellow: #ffd23f; --pink: #ff8fc7; --blue: #8ec5ff; --fine: #3be8b0; --check: #ff5c5c;
+    --display: "Archivo Black", system-ui, sans-serif; --body: "Space Grotesk", system-ui, sans-serif;
+    --edge: 3px solid var(--ink); --hard: 5px 5px 0 var(--ink); --round: 0;
+  }
+  :root[data-skin="soft"] { --edge: 0; --hard: 0 1px 2px rgb(29 43 51 / .06), 0 8px 24px rgb(29 43 51 / .10); --round: 20px; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 500 17px/1.45 var(--body);
+    padding: max(14px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom)); }
+  main { max-width: 560px; margin: 0 auto; }
+  .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .top a { font-weight: 700; color: inherit; }
+  h1 { font: 30px/1.05 var(--display); margin: 0 0 12px; }
+  .rule { background: var(--yellow); border: var(--edge); box-shadow: var(--hard); border-radius: var(--round);
+    padding: 14px 16px; font-size: 18px; margin-bottom: 22px; }
+  .rule p { margin: 0 0 8px; } .rule p:last-child { margin: 0; }
+  section { background: var(--surface); border: var(--edge); box-shadow: var(--hard); border-radius: var(--round);
+    padding: 14px 16px 6px; margin-bottom: 18px; }
+  h2 { font: 21px/1.15 var(--display); margin: 0 0 10px; display: flex; gap: 10px; align-items: center; }
+  h2 .n { flex: none; width: 32px; height: 32px; display: grid; place-items: center; font-size: 17px;
+    background: var(--pink); border: var(--edge); border-radius: var(--round); }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li { padding: 9px 0 9px 30px; position: relative; border-top: 1px solid rgb(0 0 0 / .1); }
+  li:first-child { border-top: 0; }
+  li::before { content: "→"; position: absolute; left: 4px; top: 9px; font-weight: 700; }
+  li b { font-weight: 700; }
+  sup a { font-size: 12px; font-weight: 700; color: inherit; text-decoration: none; background: var(--blue);
+    border-radius: 99px; padding: 0 6px; margin-left: 2px; }
+  .say { background: var(--fine); border: var(--edge); box-shadow: var(--hard); border-radius: var(--round);
+    padding: 14px 16px; margin-bottom: 18px; }
+  .say h2 { margin-bottom: 6px; }
+  .say p { margin: 0 0 8px; } .say p:last-child { margin: 0; }
+  .limits { font-size: 15px; background: none; border: 0; box-shadow: none; padding: 0; }
+  .limits h2 { font-size: 18px; }
+  ol.src { font-size: 14px; padding-left: 22px; margin: 0 0 12px; } ol.src li { padding: 3px 0; border: 0; }
+  ol.src li::before { content: none; } ol.src a { color: inherit; }
+  .status { font-size: 14px; color: var(--muted); }
+  @media print { body { background: #fff; } section, .rule, .say { box-shadow: none; } .top a { display: none; } }
+</style>
+</head>
+<body>
+<main>
+  <div class="top"><a href="./">← Back to the game</a><a href="#sources">Sources</a></div>
+  <h1>Is this spot worth a look?</h1>
+
+  <div class="rule">
+    <p><b>Suggest a doctor if any one of these is true.</b></p>
+    <p>If none of them fits but something still bothers you or your client, suggest a doctor anyway. This list helps
+      you notice. It can't tell you a spot is safe.</p>
+  </div>
+
+  <section>
+    <h2><span class="n">1</span>New, different or changing</h2>
+    <ul>
+      <li>A <b>new</b> spot, or a spot that <b>looks different from their other moles</b>: the odd one
+        out.<sup><a href="#s1">1</a></sup><sup><a href="#s2">2</a></sup><sup><a href="#s3">3</a></sup></li>
+      <li><b>Changing</b> in size, shape or color.<sup><a href="#s1">1</a></sup><sup><a href="#s4">4</a></sup></li>
+      <li><b>Raised, firm and growing</b> over weeks. It can be one even color, including pink or red, and often
+        doesn't show the A to D signs below.<sup><a href="#s2">2</a></sup><sup><a href="#s9">9</a></sup></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="n">2</span>How it looks</h2>
+    <ul>
+      <li><b>Asymmetry:</b> one half doesn't match the other.<sup><a href="#s1">1</a></sup></li>
+      <li><b>Border:</b> ragged, scalloped or blurry edge.<sup><a href="#s1">1</a></sup></li>
+      <li><b>Color:</b> more than one color, such as tan, brown and black, or patches of white, red or
+        blue.<sup><a href="#s1">1</a></sup></li>
+      <li><b>Diameter:</b> wider than about 6 mm, the size of a pencil eraser. Melanomas can be smaller, so a small
+        spot isn't cleared by size.<sup><a href="#s1">1</a></sup></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="n">3</span>Sores, bumps and rough patches</h2>
+    <ul>
+      <li>A spot or patch that <b>hurts, itches, bleeds, crusts or scabs for more than 4 weeks</b>.<sup><a href="#s5">5</a></sup></li>
+      <li>A <b>sore that doesn't heal</b>, or heals and comes back.<sup><a href="#s6">6</a></sup><sup><a href="#s7">7</a></sup></li>
+      <li>A <b>shiny bump</b>: pink or red on lighter skin, brown or black on darker skin.<sup><a href="#s6">6</a></sup></li>
+      <li>A <b>rough, scaly patch</b>, or a growth like a wart or a small horn.<sup><a href="#s7">7</a></sup></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="n">4</span>On darker skin, also check</h2>
+    <ul>
+      <li>A <b>brown or black streak under a nail</b>. It's easy to mistake for a bruise.<sup><a href="#s8">8</a></sup></li>
+      <li>A <b>growing dark spot on a palm or sole</b>, especially with more than one color or an uneven
+        edge.<sup><a href="#s8">8</a></sup></li>
+      <li>A <b>darker patch on a lip or inside the mouth</b>.<sup><a href="#s8">8</a></sup></li>
+    </ul>
+  </section>
+
+  <div class="say">
+    <h2>What to say</h2>
+    <p>"I noticed a spot on your [scalp / neck / face / ear]. It might be worth having a doctor look at it."</p>
+    <p>Say what you saw and where. Don't guess what it is.</p>
+  </div>
+
+  <section class="limits" id="sources">
+    <h2>Sources</h2>
+    <ol class="src">
+      <li id="s1">American Academy of Dermatology. <a href="https://www.aad.org/public/diseases/skin-cancer/find/at-risk/abcdes">What to look for: ABCDEs of melanoma.</a></li>
+      <li id="s2">DermNet. <a href="https://dermnetnz.org/topics/abcdes-of-melanoma">ABCDEFG of melanoma.</a></li>
+      <li id="s3">Grob JJ, Bonerandi JJ. <a href="https://pubmed.ncbi.nlm.nih.gov/9449921/">The "ugly duckling" sign.</a> Archives of Dermatology, 1998.</li>
+      <li id="s4">NHS. <a href="https://www.nhs.uk/conditions/moles/">Moles: when to see a GP.</a></li>
+      <li id="s5">NHS. <a href="https://www.nhs.uk/conditions/non-melanoma-skin-cancer/symptoms/">Non-melanoma skin cancer: symptoms.</a></li>
+      <li id="s6">American Academy of Dermatology. <a href="https://www.aad.org/public/diseases/skin-cancer/types/common/bcc/symptoms">Basal cell carcinoma: signs and symptoms.</a></li>
+      <li id="s7">American Academy of Dermatology. <a href="https://www.aad.org/public/diseases/skin-cancer/types/common/scc/symptoms">Squamous cell carcinoma: signs and symptoms.</a></li>
+      <li id="s8">American Academy of Dermatology. <a href="https://www.aad.org/public/diseases/skin-cancer/types/common/melanoma/skin-color">Melanoma in people of color.</a></li>
+      <li id="s9">Cancer Council WA. <a href="https://cancerwa.asn.au/assets/public/2025/10/Clinical-Melanoma-Guide-for-GPs-web.pdf">Melanoma and keratinocyte cancer: a guide for medical practitioners.</a></li>
+    </ol>
+    <p class="status">Every line is reworded from the sources above, which were checked on 2026-10-06. This checklist
+      has not yet been reviewed by a dermatologist. It is for noticing spots and suggesting a doctor, not for
+      diagnosis, and it is not medical advice.</p>
+  </section>
+</main>
+</body>
+</html>

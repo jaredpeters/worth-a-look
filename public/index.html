@@ -101,6 +101,12 @@
   .bar em { font-style: normal; font-size: 11px; font-weight: 700; text-align: center; }
   .check-btn { font: 700 15px "Space Grotesk", sans-serif; padding: 6px 12px; border: 3px solid var(--ink);
     background: var(--pink); color: var(--ink); box-shadow: var(--shadow-sm); cursor: pointer; }
+  .head-btns { display: flex; gap: 8px; }
+  .list-btn { background: var(--yellow); text-decoration: none; display: inline-block; }
+  h1, .check-btn { white-space: nowrap; }
+  @media (max-width: 460px) { h1 { font-size: 20px; padding: 2px 8px; } .head-btns { gap: 6px; }
+    .check-btn { font-size: 13px; padding: 5px 7px; } }
+  @media (max-width: 370px) { h1 { font-size: 18px; } }
   .check-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
   .progress i.done { background: var(--blue); }
   #cancelCheck { background: var(--surface); }
@@ -125,7 +131,10 @@
 <body>
 <header>
   <h1>Worth a Look</h1>
-  <button class="check-btn" id="checkBtn">Skill check</button>
+  <div class="head-btns">
+    <a class="check-btn list-btn" href="checklist.html">Checklist</a>
+    <button class="check-btn" id="checkBtn">Skill check</button>
+  </div>
 </header>
 <nav class="modes-row">
   <div class="modes" role="group" aria-label="Image type">
