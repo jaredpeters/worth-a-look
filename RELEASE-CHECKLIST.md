@@ -8,7 +8,7 @@
 
 ## Still to do
 
-1. Have a dermatologist review the diagnosis notes in `public/notes.js`.
+1. Have a dermatologist review the diagnosis notes in `public/notes.js` and the spot checklist in `public/checklist.html`.
 2. Play 100 cards on a phone and fix anything that feels off.
 3. Delete the private archive copy of the old repository, which still holds the pre-cleanup history. It needs a GitHub permission the command line doesn't have yet:
    `gh auth refresh -h github.com -s delete_repo`, then `gh repo delete jaredpeters/worth-a-look-private-archive`

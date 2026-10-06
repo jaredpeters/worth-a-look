@@ -26,7 +26,7 @@ What the game uses: 94 darker-skin photos in total. That's 34 cancers and 30 har
 
 ## Why the 2,346 are left out
 
-Every other photo in Worth a Look has a diagnosis confirmed by a biopsy, or agreed by several dermatologists. A single clinician's assessment is a weaker label. Most of the time it will be right, but when it's wrong, the photo is a spot that should have been checked and is marked harmless. That's the most harmful lesson this game could teach.
+Every other photo in Worth a Look has a diagnosis confirmed by a biopsy, or agreed by several dermatologists. A single clinician's assessment is a weaker label. Most of the time it will be right, but when it's wrong, the photo is a spot that should have been checked and is marked harmless, and it teaches players to clear a spot like that.
 
 Mixing these photos in would also create a double standard: the darker-skin harmless photos would be held to a lower bar than every other photo in the game.
 

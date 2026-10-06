@@ -14,7 +14,7 @@ Worth a Look shows you real photos of moles and skin growths whose diagnosis is 
 
 ## Why this exists
 
-People miss many skin cancers on their own, especially on the scalp, head and neck. Barbers, hairdressers and estheticians see those places up close every few weeks. In one study, hairdressers first spotted 10% of the scalp and neck melanomas a cancer center treated. Few of these professionals have had any skin cancer training, and most say they'd like some. Studies show short training helps. Worth a Look adds free practice on hundreds of real cases. The project page has the research, with a link to every study.
+People miss many skin cancers on their own, especially on the scalp, head and neck. Barbers, hairdressers and estheticians see those places up close every few weeks. In one study, hairdressers first spotted 10% of the scalp and neck melanomas a cancer center treated. Few of these professionals have had any skin cancer training, and most say they'd like some. Studies show short training helps. Worth a Look adds free practice on hundreds of real cases. The research is on the project page.
 
 ## What's in it
 
@@ -25,7 +25,7 @@ People miss many skin cancers on their own, especially on the scalp, head and ne
 - Rounds of 20 photos, 6 of them cancer, ending with your score and a chart of your recent rounds. A photo you get wrong comes back once, two rounds later.
 - **Skill check:** 20 fixed photos, half cancer and 4 on darker skin, with no answers until the end. Darker skin gets its own score. Take it again after some practice to see how much you've improved. Two sets take turns, and neither appears in normal rounds.
 - **What it often looks like:** for the five most common diagnoses, the answer card can show a short description of what that diagnosis usually looks like, with a link to the NHS or American Academy of Dermatology page it's based on.
-- **Spot checklist:** one page to open at the chair, listing when to suggest a doctor (new or changing, the ABCD signs, sores that won't heal, and what to check on darker skin). Every line links to its source. Open it from the game, or go straight to `checklist.html`.
+- **Spot checklist:** one page to open at the chair, listing when to suggest a doctor (new or changing, the ABCD signs, sores that won't heal, and what to check on darker skin). Open it from the game, or go straight to `checklist.html`.
 - **Two styles:** Bold, and a rounder Soft style. Switch at the bottom of the game.
 - No accounts and no tracking. Your score is kept in your browser.
 
@@ -57,7 +57,7 @@ python3 scripts/build_deck.py
 
 | Path | What it is |
 |---|---|
-| `public/` | The game: one HTML page and one script |
+| `public/` | The game (`index.html`, `app.js`), the spot checklist (`checklist.html`), the diagnosis notes (`notes.js`) and the Soft skin (`skins/`) |
 | `site/` | The project page |
 | `scripts/make_checks.py` | Picks the two fixed skill-check sets (run once) |
 | `public/notes.js` | The diagnosis notes and their sources |
@@ -70,7 +70,7 @@ python3 scripts/build_deck.py
 - **Photos:** not in this repo and not covered by the MIT license. Each belongs to its contributor to the [ISIC Archive](https://www.isic-archive.com), under CC0, CC BY or CC BY-NC. Every answer card shows the photo's ISIC ID, credit line and license, with a link to its archive page.
 - **Non-commercial:** Worth a Look is free, with no ads, and will not be sold. Over half the photos are CC BY-NC, so a commercial fork must drop them first.
 - **Screenshots** above use photo ISIC_0024258 (CC0).
-- **Fonts:** Archivo Black and Space Grotesk, SIL Open Font License, bundled in `public/fonts/`.
+- **Fonts:** Archivo Black, Space Grotesk, Fraunces and DM Sans, SIL Open Font License, bundled in `public/fonts/`.
 - **Privacy:** no accounts, cookies or analytics. Photos load from the ISIC Archive's image host.
 
 Full details, including the medical disclaimer and how to ask for a photo to be removed: [RIGHTS.md](RIGHTS.md).
