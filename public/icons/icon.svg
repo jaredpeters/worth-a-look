@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Square on purpose: iOS and Android round the corners themselves. -->
+  <rect width="512" height="512" fill="#ffd23f"/>
+  <circle cx="94" cy="418" r="30" fill="#1d2b33"/>
+  <circle cx="418" cy="94" r="30" fill="#1d2b33"/>
+  <circle cx="236" cy="226" r="118" fill="#fff4d6"/>
+  <path d="M236 160 L254 180 L284 174 L280 204 L300 222 L276 236 L280 266 L250 260 L230 280 L216 256 L186 252 L196 224 L178 200 L206 190 Z" fill="#ff5c5c"/>
+  <circle cx="236" cy="226" r="118" fill="none" stroke="#1d2b33" stroke-width="38"/>
+  <path d="M322 312 L410 400" stroke="#1d2b33" stroke-width="54" stroke-linecap="round"/>
+</svg>

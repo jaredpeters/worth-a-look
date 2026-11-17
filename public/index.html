@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Worth a Look</title>
+<meta name="description" content="Swipe through real skin spots and learn which ones are worth showing a doctor.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<meta name="theme-color" content="#ffd23f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Worth a Look">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="skins/soft.css">
+<script>
+  // Apply the saved skin before the page draws, so it never flashes the other one.
+  try { const k = localStorage.getItem("skinder.skin"); if (k) document.documentElement.dataset.skin = k; } catch {}
+</script>
+<style>
+  /* Bold skin (default): thick ink borders, hard offset shadows, flat loud colors. The Soft skin is in skins/soft.css. */
+  :root {
+    --bg: #fff4d6; --surface: #fff; --ink: #111; --muted: #3d3a33;
+    --yellow: #ffd23f; --pink: #ff8fc7; --blue: #8ec5ff;
+    --fine: #3be8b0; --check: #ff5c5c;
+    --shadow: 5px 5px 0 var(--ink); --shadow-sm: 3px 3px 0 var(--ink);
+    --display: "Archivo Black", system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #1d1b26; --muted: #ece8ff; }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { background: var(--bg); color: var(--ink); font: 500 16px/1.4 "Space Grotesk", system-ui, sans-serif;
+    display: flex; flex-direction: column; align-items: center; padding: max(14px, env(safe-area-inset-top)) 16px max(8px, env(safe-area-inset-bottom)); }
+  header { width: 100%; max-width: 480px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  h1 { font: 26px var(--display); margin: 0; background: var(--yellow); border: 3px solid var(--ink);
+    padding: 2px 10px; box-shadow: var(--shadow-sm); transform: rotate(-2deg); }
+  .modes-row { width: 100%; max-width: 480px; margin-top: 14px; }
+  .modes { display: flex; width: 100%; border: 3px solid var(--ink); box-shadow: var(--shadow-sm); background: var(--surface); }
+  .modes button { flex: 1; border: 0; background: none; color: var(--ink); padding: 6px 10px; font: 700 14px "Space Grotesk", sans-serif; cursor: pointer; }
+  .modes button + button { border-left: 3px solid var(--ink); }
+  .modes button[aria-pressed="true"] { background: var(--blue); }
+  .stats { width: 100%; max-width: 480px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0 12px; }
+  .stat { border: 3px solid var(--ink); box-shadow: var(--shadow-sm); padding: 6px 12px; }
+  .stat:first-child { background: var(--pink); } .stat:last-child { background: var(--fine); }
+  .stat b { font: 20px var(--display); display: block; }
+  .stat span { font-size: 13px; font-weight: 700; }
+  .stage { position: relative; width: 100%; max-width: 480px; flex: 1; min-height: 450px; max-height: 560px; }
+  .card { position: absolute; inset: 0 5px 5px 0; background: var(--surface); border: 4px solid var(--ink);
+    box-shadow: 8px 8px 0 var(--ink); overflow: hidden; display: flex; flex-direction: column;
+    touch-action: none; user-select: none; }
+  .card.anim { transition: transform .25s ease, opacity .25s ease; }
+  .card.fly { transition: transform .35s ease-in, opacity .35s ease-in; opacity: 0; }
+  .card.pop { animation: pop .3s cubic-bezier(.2, .9, .3, 1.3); }
+  @keyframes pop { from { transform: scale(.5) rotate(-4deg); opacity: 0; } to { transform: none; opacity: 1; } }
+  .card img { flex: 1; min-height: 30%; width: 100%; object-fit: contain; background: var(--ink); pointer-events: none; }
+  .meta { padding: 10px 14px; font-weight: 700; font-size: 16px; display: flex; justify-content: space-between; gap: 12px;
+    border-top: 4px solid var(--ink); background: var(--yellow); }
+  .meta a { color: var(--ink); }
+  .tag { position: absolute; top: 40%; padding: 6px 16px; border: 4px solid var(--ink); font: 30px var(--display);
+    opacity: 0; text-transform: uppercase; box-shadow: var(--shadow); }
+  .tag.fine { left: 18px; background: var(--fine); transform: rotate(-10deg); }
+  .tag.check { right: 18px; background: var(--check); transform: rotate(10deg); }
+  .verdict { text-align: center; padding: 12px 14px; border-bottom: 4px solid var(--ink); }
+  .verdict.ok { background: var(--fine); } .verdict.bad { background: var(--check); }
+  .verdict .big { font: 34px/1.05 var(--display); text-transform: uppercase; }
+  .verdict .truth { font-size: 19px; font-weight: 700; margin-top: 4px; }
+  .verdict .dx { display: inline-block; font-size: 14px; font-weight: 700; margin-top: 8px; background: var(--surface);
+    border: 3px solid var(--ink); padding: 3px 10px; box-shadow: var(--shadow-sm); }
+  .say { font-size: 14px; font-weight: 500; padding: 8px 14px; background: var(--yellow); border-top: 4px solid var(--ink); }
+  .verdict .again { font-size: 14px; font-weight: 700; margin-top: 10px; }
+  .hint { position: absolute; left: 50%; bottom: 58px; transform: translateX(-50%); background: var(--yellow);
+    border: 3px solid var(--ink); box-shadow: var(--shadow-sm); font-weight: 700; padding: 4px 12px; white-space: nowrap;
+    animation: nudge 1.4s ease-in-out infinite; pointer-events: none; }
+  @keyframes nudge { 50% { transform: translate(-50%, -6px); } }
+  .card > *:not(img) { flex-shrink: 0; }
+  .say ~ .hint { display: none; }
+  .credit { font-size: 12px; font-weight: 500; background: var(--surface); }
+  .actions { width: 100%; max-width: 480px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0 8px; }
+  .actions button { font: 18px var(--display); padding: 14px; border: 3px solid var(--ink); box-shadow: var(--shadow);
+    color: var(--ink); cursor: pointer; transition: transform .08s, box-shadow .08s; }
+  .actions button:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--ink); }
+  #fine { background: var(--fine); } #check { background: var(--check); }
+  #next { grid-column: 1 / -1; background: var(--yellow); }
+  footer { max-width: 480px; font-size: 12px; color: var(--muted); text-align: center; margin: 6px 0 10px; }
+  footer a, footer button { font: inherit; font-weight: 700; color: inherit; background: none; border: 0; cursor: pointer; text-decoration: underline; padding: 0; }
+  .progress { width: 100%; max-width: 480px; display: grid; grid-template-columns: repeat(20, 1fr); gap: 3px; margin: 0 0 12px; }
+  .progress i { height: 10px; border: 2px solid var(--ink); background: var(--surface); }
+  .progress i.ok { background: var(--fine); } .progress i.bad { background: var(--check); }
+  .progress i.now { background: var(--yellow); }
+  .summary .sum-body { padding: 14px 16px; flex: 1; overflow: auto; }
+  .summary p { margin: 0 0 12px; font-size: 17px; }
+  .summary .small { font-size: 14px; }
+  .bars { display: flex; gap: 6px; align-items: flex-end; height: 110px; margin: 6px 0; }
+  .bar { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; position: relative; }
+  .bar span { display: block; background: var(--blue); border: 2px solid var(--ink); }
+  .bar.last span { background: var(--fine); }
+  .bar em { font-style: normal; font-size: 11px; font-weight: 700; text-align: center; }
+  .check-btn { font: 700 15px "Space Grotesk", sans-serif; padding: 6px 12px; border: 3px solid var(--ink);
+    background: var(--pink); color: var(--ink); box-shadow: var(--shadow-sm); cursor: pointer; }
+  .head-btns { display: flex; gap: 8px; }
+  .list-btn { background: var(--yellow); text-decoration: none; display: inline-block; }
+  h1, .check-btn { white-space: nowrap; }
+  @media (max-width: 460px) { h1 { font-size: 20px; padding: 2px 8px; } .head-btns { gap: 6px; }
+    .check-btn { font-size: 13px; padding: 5px 7px; } }
+  @media (max-width: 370px) { h1 { font-size: 18px; } }
+  .check-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+  .progress i.done { background: var(--blue); }
+  #cancelCheck { background: var(--surface); }
+  .why { margin-top: 10px; font: 700 14px "Space Grotesk", sans-serif; background: var(--surface); color: var(--ink);
+    border: 3px solid var(--ink); box-shadow: var(--shadow-sm); padding: 5px 10px; cursor: pointer; }
+  .notes { position: absolute; left: 0; right: 0; bottom: 0; max-height: 75%; overflow: auto; background: var(--surface);
+    border-top: 4px solid var(--ink); padding: 14px 16px; z-index: 2; }
+  .notes[hidden] { display: none; }
+  .notes h3 { margin: 0 32px 8px 0; font: 19px/1.15 var(--display); }
+  .notes ul { margin: 0 0 10px; padding-left: 20px; } .notes li { margin-bottom: 6px; }
+  .notes p { margin: 0; font-size: 13px; }
+  .notes .close { position: absolute; top: 10px; right: 12px; font: 18px var(--display); background: var(--yellow);
+    border: 3px solid var(--ink); width: 34px; height: 34px; cursor: pointer; }
+  .history { margin: 0 0 12px; padding-left: 20px; font-size: 15px; } .history .last { font-weight: 700; }
+  .missed { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .missed figure { margin: 0; } .missed img { width: 100%; aspect-ratio: 1; object-fit: cover; border: 3px solid var(--ink); display: block; }
+  .missed figcaption { font-size: 11px; font-weight: 700; margin-top: 3px; } .missed figcaption.bad { color: #b3261e; }
+  .msg { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 24px;
+    border: 4px solid var(--ink); background: var(--surface); font-weight: 700; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Worth a Look</h1>
+  <div class="head-btns">
+    <a class="check-btn list-btn" href="checklist.html">Checklist</a>
+    <button class="check-btn" id="checkBtn">Skill check</button>
+  </div>
+</header>
+<nav class="modes-row">
+  <div class="modes" role="group" aria-label="Image type">
+    <button data-mode="clinical" aria-pressed="true">Naked eye</button>
+    <button data-mode="headneck" aria-pressed="false">Head &amp; neck</button>
+    <button data-mode="dermoscopic" aria-pressed="false">Dermoscope</button>
+  </div>
+</nav>
+
+<section class="stats">
+  <div class="stat"><b id="caught">–</b><span>cancers you flagged</span></div>
+  <div class="stat"><b id="cleared">–</b><span>harmless ones cleared</span></div>
+</section>
+
+<div class="progress" id="progress" aria-label="Progress through this round"></div>
+
+<main class="stage" id="stage"><div class="msg">Loading images…</div></main>
+
+<div class="actions" id="actions">
+  <button id="fine">← Looks fine</button>
+  <button id="check">Get it checked →</button>
+</div>
+
+<footer>
+  A practice game, not a diagnosis. Anything new, changing, bleeding or that worries you: see a doctor.<br>
+  Images and diagnoses from the <a href="https://www.isic-archive.com" target="_blank" rel="noopener">ISIC Archive</a>.
+  · <a href="https://github.com/jaredpeters/worth-a-look/blob/main/RIGHTS.md" target="_blank" rel="noopener">Rights</a>
+  · <button id="reset">Reset score</button>
+  · <button id="skin">Style: Bold</button>
+</footer>
+
+<script src="notes.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

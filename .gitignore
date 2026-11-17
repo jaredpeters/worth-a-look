@@ -1,0 +1,10 @@
+node_modules/
+.DS_Store
+__pycache__/
+*.png
+!public/icons/*.png
+!site/img/*.png
+
+# Kept on this Mac only
+tickets/
+.copyedit.json
